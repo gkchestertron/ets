@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  age_range: MyString
+  gender: MyString
+  exclusions: MyString
+  race_id: 1
+
+two:
+  age_range: MyString
+  gender: MyString
+  exclusions: MyString
+  race_id: 1

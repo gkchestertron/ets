@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  entry_id: MyString
+  path: MyString
+  tags: MyString
+  location: MyString
+  author_id: 1
+
+two:
+  entry_id: MyString
+  path: MyString
+  tags: MyString
+  location: MyString
+  author_id: 1
