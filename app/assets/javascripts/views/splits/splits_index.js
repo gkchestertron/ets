@@ -1,4 +1,6 @@
-Ets.Views.SplitsIndex = Backbone.View.extend({
+Ets.Views.splits = {};
+
+Ets.Views.splits.index = Backbone.View.extend({
 
   template: JST['splits/index']
 

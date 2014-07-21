@@ -17,7 +17,8 @@ class Event < ActiveRecord::Base
         self.races.each { |race| race.entries.each { |entry| entry.destroy } }
         csv.each do |entry_attrs|
             entry = Entry.new(entry_attrs)
-            entry.race = self.races.find_by_division(entry.division)
+            entry.race = self.races.find_by_division(entry.division) ||
+                         self.races.new(division: entry.division)
             entry.save
             self.create_splits(entry)
         end
@@ -30,7 +31,8 @@ class Event < ActiveRecord::Base
                 length = (entry[template.diff_field_1].to_msec - entry[template.diff_field_2].to_msec).abs.to_race_time
                 label  = template.label
                 rate   = template.distance/length.to_msec*3600000.0
-                entry.splits.create(time: entry[template.diff_field_2], distance: template.distance, length: length, label: label, rate: rate)
+                order  = template.order
+                entry.splits.create(time: entry[template.diff_field_2], distance: template.distance, length: length, label: label, rate: rate, order: order)
             end
         end
     end

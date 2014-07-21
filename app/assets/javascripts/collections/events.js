@@ -1,4 +1,4 @@
-Ets.Collections.Events = Backbone.Collection.extend({
-    model: Ets.Models.Event,
+Ets.Collections.events = Backbone.Collection.extend({
+    model: Ets.Models.events,
     url: '/events/'
 });

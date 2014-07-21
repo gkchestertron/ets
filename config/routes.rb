@@ -29,7 +29,9 @@ Rails.application.routes.draw do
     end
     resources :races do
         resources :entries
+        resources :split_templates
     end
     resources :entries
     resources :events
+    resources :split_templates
 end

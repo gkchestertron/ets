@@ -1,3 +1,3 @@
-Ets.Models.Split = Backbone.Model.extend({
+Ets.Models.splits = Backbone.Model.extend({
 
 });

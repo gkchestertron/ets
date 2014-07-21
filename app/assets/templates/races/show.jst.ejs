@@ -1,0 +1,36 @@
+<h1><%= race.get('event').get('name') %> <%= race.get('division') %></h1>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th data-comparator="bib_number">Bib #</th>
+            <th data-comparator="last_name">Name</th>
+            <th data-comparator="gender">Gender</th>
+            <th data-comparator="age">Age</th>
+            <th data-comparator="start_time">Start</th>
+            <% race.get('split_templates').each(function (template, i) { %>
+            <th data-comparator="<%= template.get('label') %>"><%= template.get('label') %></th>
+            <% }); %>
+            <th data-comparator="finish_time">Finish</th>
+            <th data-comparator="time">Time</th>
+            <th data-comparator="age_rank">Age Rank</th>
+            <th data-comparator="overall_rank">Overall Rank</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% race.get('entries').each(function (entry) { %>
+        <tr>
+            <td><%= entry.get('bib_number') %></td>
+            <td><%= entry.get('first_name') + ' ' + entry.get('last_name') %></td>
+            <td><%= entry.get('gender') %></td>
+            <td><%= entry.get('age') %></td>
+            <td><%= entry.get('start_time') %></td>
+            <% entry.get('splits').each(function (split) { %>
+            <td><%= split.get('length') %></td>
+            <% }); %>
+            <td><%= entry.get('finish_time') %></td>
+            <td><%= entry.get('time') %></td>
+            <td><%= entry.get('age_rank') %></td>
+            <td><%= entry.get('overall_rank') %></td>
+        </tr>
+        <% }); %>
+</table>

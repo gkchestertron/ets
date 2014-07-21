@@ -4,7 +4,6 @@ window.Ets = {
     Views: {},
     Routers: {},
     initialize: function() {
-        Ets.races = new Ets.Collections.Races();
         Ets.router = new Ets.Routers.mainRouter();
     }
 };

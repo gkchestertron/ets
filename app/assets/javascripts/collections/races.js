@@ -1,4 +1,4 @@
-Ets.Collections.Races = Backbone.Collection.extend({
-    model: Ets.Models.Race,
+Ets.Collections.races = Backbone.Collection.extend({
+    model: Ets.Models.races,
     url: '/races/'
 });

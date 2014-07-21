@@ -1,0 +1,8 @@
+<% events.each(function (event) { %>
+<a href="events/<%= event.id %>/edit">
+<h1><%= event.get('name') %></h1>
+</a>
+    <% event.get('races').each(function (race) { %>
+        <a href="<%= '/races/' + race.id %>"><h2><%= race.get('division') %></h2></a>
+    <% }); %> 
+<% }); %>

@@ -1,6 +1,6 @@
 class RacesController < ApplicationController
     def create
-        @race = Race.new(params[:race])
+        @race = Race.new(race_params)
         if @race.save
             render json: @race
         else
@@ -11,9 +11,9 @@ class RacesController < ApplicationController
     def destroy
         @race = Race.find(params[:id])
         if @race.destroy
-            render status: 400
+            head status: 204
         else
-            render status: 200
+            head status: 400
         end
     end
 
@@ -23,16 +23,24 @@ class RacesController < ApplicationController
     end
 
     def show
-        @race = Race.includes(:users, :entries).find(params[:id])
-        render json: @race.as_json(include: [:users, entries: { include: :splits }])
+        @race = Race.includes(:split_templates, :event, :users, :entries).find(params[:id])
+        render json: @race.as_json(include: [:split_templates, :event, :users, entries: { include: :splits }])
     end
 
     def update
         @race = Race.find(params[:id])
-        if @race.update_attrubutes(params[:race])
+        if @race.update_attrubutes(race_params)
             render json: @race
         else
-            render status: 400
+            head status: 400
         end
     end
+
+    private
+        def race_params
+            params.require(:race).permit(
+                :division,
+                :event_id
+            )
+        end
 end

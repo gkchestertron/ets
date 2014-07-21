@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
     def create
-        @event = Event.new(params[:event])
+        @event = Event.new(event_params)
         if @event.save
             render json: @event
         else
@@ -11,28 +11,46 @@ class EventsController < ApplicationController
     def destroy
         @event = Event.find(params[:id])
         if @event.destroy
-            render status: 400
+            head status: 204
         else
-            render status: 200
+            head status: 400
         end
     end
 
     def index
-        @events = Event.all
-        render json: @events
+        @events = Event.all.includes(:races)
+        render json: @events.as_json(include: :races)
     end
 
     def show
         @event = Event.includes(:races).find(params[:id])
-        render json: @event.as_json(include: :races)
+        render json: @event.as_json(include: [races: { include: :split_templates }])
     end
 
     def update
         @event = Event.find(params[:id])
-        if @event.update_attrubutes(params[:event])
-            render json: @event
+        if @event.update_attributes(event_params)
+            if params[:import]
+                @event.import
+            end
+            render json: @event.as_json(include: :races)
         else
             render status: 400
         end
     end
+
+    private
+        def event_params
+            params.require(:event).permit(
+                :name, 
+                :location,
+                :date_time,
+                :description,
+                :import_path,
+                :user_field_1_label,
+                :user_field_2_label,
+                :user_field_3_label,
+                :import
+            )
+        end
 end
