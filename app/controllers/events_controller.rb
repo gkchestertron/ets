@@ -33,7 +33,7 @@ class EventsController < ApplicationController
             if params[:import]
                 @event.import
             end
-            render json: @event.as_json(include: :races)
+            render json: @event.as_json(include: [races: { include: :split_templates }])
         else
             render status: 400
         end

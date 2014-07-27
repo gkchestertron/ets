@@ -31,4 +31,10 @@ class UsersController < ApplicationController
             render status: 400
         end
     end
+
+    private
+
+    def user_params
+        params.require(:user).permit(:username, :password)
+    end
 end

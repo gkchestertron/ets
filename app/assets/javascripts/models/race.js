@@ -8,6 +8,8 @@ Ets.Models.races = Backbone.Model.extend({
         response.entries = new Ets.Collections.entries(entries, { parse: true });
         response.event   = new Ets.Models.events(event, { parse: true });
         response.split_templates = new Ets.Collections.split_templates(split_templates, { parse: true });
+        this.id = response.id;
+        Ets.races.add(this);
         return response;
-    },
+    }
 });

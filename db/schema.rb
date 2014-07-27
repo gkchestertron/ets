@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140706044422) do
+ActiveRecord::Schema.define(version: 20140727004443) do
 
   create_table "entries", force: true do |t|
     t.integer "bib_number"
@@ -132,12 +132,17 @@ ActiveRecord::Schema.define(version: 20140706044422) do
 
   create_table "users", force: true do |t|
     t.string   "name"
-    t.string   "password"
     t.string   "gender"
     t.date     "birthdate"
     t.string   "username"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "password_digest"
+    t.string   "email"
+    t.string   "session_token"
+    t.integer  "admin"
   end
+
+  add_index "users", ["session_token"], name: "index_users_on_session_token"
 
 end

@@ -29,7 +29,7 @@ class RacesController < ApplicationController
 
     def update
         @race = Race.find(params[:id])
-        if @race.update_attrubutes(race_params)
+        if @race.update_attributes(race_params)
             render json: @race
         else
             head status: 400

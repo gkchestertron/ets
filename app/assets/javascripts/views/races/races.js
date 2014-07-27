@@ -5,7 +5,7 @@ Ets.Views.races.show = Backbone.View.extend({
         this.model.get('entries').getOverallRanks();
     },
     events: {
-        'click th': 'sort'
+        'click th': 'sort',
     },
     sort: function (event) {
         var $th        = $(event.currentTarget),

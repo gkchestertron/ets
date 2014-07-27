@@ -3,14 +3,11 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
         this.$rootEl = $('#app');
     },
     routes: {
-        ''                   : 'home',
+        ''                   : 'index',
         ':baseRoute'         : 'index',
         ':baseRoute/new'     : 'new',
         ':baseRoute/:id'     : 'show',
         ':baseRoute/:id/edit': 'edit'
-    },
-    home: function () {
-        console.log('home');
     },
     edit: function (baseRoute, id) {
         var self  = this,
@@ -18,23 +15,30 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
             view;
 
         model.fetch({
-            success: function () {
+            success: function (model) {
                 view = new Ets.Views[baseRoute].edit({ model: model });
                 self._swapView(view);
             }
         });
     },
-    index: function (baseRoute) {
+    index: function (baseRoute, id) {
         var self = this,
             view,
-            collection = new Ets.Collections[baseRoute];
-
-        collection.fetch({
-            success: function () {
-                view = new Ets.Views[baseRoute].index({ collection: collection });
-                self._swapView(view);
-            }
-        });
+            collection; 
+            
+        if (Ets.Collections[baseRoute]) collection = new Ets.Collections[baseRoute];
+        if (collection) {
+            collection.fetch({
+                success: function (collection) {
+                    if (!id) id = 'index';
+                    view = new Ets.Views[baseRoute][id]({ collection: collection });
+                    self._swapView(view);
+                }
+            });
+        } else {
+            view = new Ets.Views[baseRoute];
+            self._swapView(view);
+        }
     },
     new: function (baseRoute) {
         var model = new Ets.Models.events,
@@ -42,16 +46,28 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
 
         this._swapView(view);
     },
+    search: function (baseRoute, name) {
+        //get a collection based on the name
+    },
     show: function (baseRoute, id) {
+        if (isNaN(parseInt(id))) {
+            if (Ets.Views[baseRoute][id]) {
+                this.index(baseRoute, id);
+                return false;
+            } else {
+                this.search(baseRoute, id);
+                return false;
+            }
+        }
+
         var self  = this,
             model = new Ets.Models[baseRoute]({ id: id }),
             view;
 
         model.fetch({
-            success: function () {
+            success: function (model) {
                 view = new Ets.Views[baseRoute].show({ model: model });
                 self._swapView(view);
-window.test = model;
             }
         });
     },

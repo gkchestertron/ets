@@ -11,6 +11,8 @@
 // about supported directives.
 //
 //= require jquery
+//= require moment
+//= require fullcalendar.min
 //= require jquery_ujs
 //= require underscore
 //= require backbone

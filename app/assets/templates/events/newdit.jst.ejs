@@ -1,66 +1,139 @@
 <div class="row">
-<div class="col-lg-12">
-<% if (event.id) { %>
-<h1>Edit Event</h1>
-<% } else { %>
-<h1>New Event</h1>
-<% } %>
-
-<h2>Event Info:</h2>
-<form role="form">
-    <div class="input-group">
-        <span class="input-group-addon" class="input-group-addon" for="name">Name</span>
-        <input class="form-control" value="<%= event.get('name') %>" type="text" id="name" name="name">
+    <div class="col-lg-12">
+        <div class="page-header">
+            <% if (event.id) { %>
+            <h1 data-name="name" contenteditable><%= event.get('name') %></h1>
+            <% } else { %>
+            <h1 data-name="name" contenteditable>New Event</h1>
+            <% } %>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Event Info</h3>
+            </div>
+            <div class="panel-body">
+                <form role="form">
+                    <div id="map-canvas"/>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="location">Location</span>
+                        <input class="form-control" value="<%= event.get('location') %>" type="text" id="location" name="location">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="date_time">Date and Time</span>
+                        <input class="form-control" value="<%= event.get('date_time') %>" type="text" id="date_time" name="date_time">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="description">Description</span>
+                        <textarea class="form-control" id="description" name="description"><%= event.get('description') %></textarea>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="import_path">Dropbox Link</span>
+                        <input class="form-control" value="<%= event.get('import_path') %>" type="text" id="import_path" name="import_path">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="user_field_1">User Field 1 Label</span>
+                        <input class="form-control" value="<%= event.get('user_field_1_label') %>" type="text" id="user_field_1" name="user_field_1_label">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="user_field_2">User Field 2 Label</span>
+                        <input class="form-control" value="<%= event.get('user_field_2_label') %>"  type="text" id="user_field_2" name="user_field_2_label">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="user_field_3">User Field 3 Label</span>
+                        <input class="form-control" type="text" id="user_field_3" value="<%= event.get('user_field_3_label') %>"  name="user_field_3_label">
+                    </div>
+                    <% if (event.id) { %>
+                    <button class="btn btn-sm btn-default" data-function="import">Import</button>
+                    <button class="btn btn-sm btn-danger" data-function="delete">Delete Event</button>
+                    <% } %>
+                </form>
+            </div>
+        </div>
+        <div class="page-header">
+            <h2>Races</h2>
+        </div>
+        <% if (event.has('races')) { %>
+        <% event.get('races').each(function (race) { %>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <form data-model-type="races" data-model-id="<%= race.id %>">
+                    <h3 contenteditable data-name="division"><%= race.get('division') %></h3>
+                </form>
+            </div>
+            <div class="panel-body">
+                <!--split templates-->
+                <% if (race.has('split_templates')) { %> 
+                <% race.get('split_templates').each(function (template) { %>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <form data-model-type="split_templates" data-model-id="<%= template.id %>">
+                            <h3 contenteditable data-name="label" class="panel-title"><%= template.get('label') %></h3>
+                        </form>
+                    </div>
+                    <div class="panel-body">
+                        <form data-model-type="split_templates" data-model-id="<%= template.id %>">
+                            <div class="input-group">
+                                <span class="input-group-addon">Distance</span>
+                                <input type="text" class="form-control" name="distance" value="<%= template.get('distance') %>">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon">Order</span>
+                                <input type="text" class="form-control" name="order" value="<%= template.get('order') %>">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <form data-model-type="split_templates" data-model-id="<%= template.id %>">
+                            <div class="row">
+                                <div class="col-lg-3"><button class="btn btn-sm btn-danger" data-function="deleteSplitTemplate" data-split-template-id="<%= template.id %>">Delete Split</button></div>
+                                <div class="col-lg-3">
+                                    <select name="diff_field_1"  class="form-control">
+                                        <option>-- Split Field 1 --</option>
+                                        <% for (var i = 1; i < 11; i++) { %>
+                                        <option value="split_<%= i %>" <%= (template.get('diff_field_1') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <select name="diff_field_2"  class="form-control">
+                                        <option>-- Split Field 2 --</option>
+                                        <% for (var i = 1; i < 11; i++) { %>
+                                        <option value="split_<%= i %>" <%= (template.get('diff_field_2') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
+                                        <% } %>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <% }); %>
+                <% } %>
+                <form>
+                    <div class="input-group">
+                        <span class="input-group-addon">Add a Split to this Race</span>
+                        <input data-race-id="<%= race.id %>" type="text" placeholder="Enter Split label" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" data-function="createSplitTemplate">+</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <form data-model-type="races" data-model-id="<%= race.id %>">
+                    <button class="btn btn-sm btn-danger" data-function="deleteRace" data-race-id="<%= race.id %>">Delete Race</button>
+                </form>
+            </div>
+        </div>
+        <% }); %>
+        <% } %>
+        <form>
+            <div class="input-group">
+                <span class="input-group-addon">Add a Race</span>
+                <input type="text" placeholder="Enter the Division Name" class="form-control">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" data-function="createRace">+</button>
+                </span>
+            </div>
+        </form>
     </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="location">Location</span>
-        <input class="form-control" value="<%= event.get('location') %>" type="text" id="location" name="location">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="date_time">Date and Time</span>
-        <input class="form-control" value="<%= event.get('date_time') %>" type="text" id="date_time" name="date_time">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="description">Description</span>
-        <textarea class="form-control" type="text" id="description" name="description"><%= event.get('description') %></textarea>
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="import_path">Dropbox Link</span>
-        <input class="form-control" value="<%= event.get('import_path') %>" type="text" id="import_path" name="import_path">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="user_field_1">User Field 1 Label</span>
-        <input class="form-control" value="<%= event.get('user_field_1_label') %>" type="text" id="user_field_1" name="user_field_1_label">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="user_field_2">User Field 2 Label</span>
-        <input class="form-control" value="<%= event.get('user_field_2_label') %>"  type="text" id="user_field_2" name="user_field_2_label">
-    </div>
-    <div class="input-group">
-        <span class="input-group-addon" for="user_field_3">User Field 3 Label</span>
-        <input class="form-control" type="text" id="user_field_3" value="<%= event.get('user_field_3_label') %>"  name="user_field_3_label">
-    </div>
-    <button type="submit" class="btn btn-primary"><%= (event.id) ? 'Update' : 'Create Event' %></button>
-    <% if (event.id) { %>
-    <button class="btn btn-default" data-function="import">Import</button>
-    <button class="btn btn-danger" data-function="delete">Delete Event</button>
-    <% } %>
-</form>
-
-<h2>Races:</h2>
-<% if (event.get('races')) { %>
-<% event.get('races').each(function (race) { %>
-<h3><%= race.get('division') %></h3>
-<button class="btn btn-danger" data-function="deleteRace" data-race-id="<%= race.id %>">Delete</button>
-<!--splits-->
-<% }); %>
-<% } %>
-<form>
-    <div class="input-group">
-        <span class="input-group-addon">Add a Race</span>
-        <input type="text" placesholder="Enter the Division Name" class="form-control">
-        <span class="input-group-btn">
-            <button class="btn btn-success" data-function="createRace">+</button>
-        </span>
-</div>
 </div>

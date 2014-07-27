@@ -1,8 +1,16 @@
+<div class="page-header">
+  <h1>ETS Events</small></h1>
+</div>
 <% events.each(function (event) { %>
-<a href="events/<%= event.id %>/edit">
-<h1><%= event.get('name') %></h1>
+<a href="events/<%= event.id %>">
+<h2><%= event.get('name') || 'unnamed' %> <small><%= event.get('date_time') %></small></h2>
 </a>
-    <% event.get('races').each(function (race) { %>
-        <a href="<%= '/races/' + race.id %>"><h2><%= race.get('division') %></h2></a>
-    <% }); %> 
+<% if (Ets.admin) { %>
+<a class="btn btn-primary btn-sm" href="events/<%= event.id %>/edit"> edit </a>
+<button data-function="deleteEvent" class="btn btn-sm btn-danger" data-model-id="<%= event.id %>"> delete </button>
+<% } %>
 <% }); %>
+<% if (Ets.admin) { %>
+<hr>
+<a href="events/new" class="btn btn-success">Create New Event</a>
+<% } %>

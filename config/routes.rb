@@ -13,6 +13,9 @@ class IsItABot
 end
 
 Rails.application.routes.draw do
+    post '/sessions' => 'sessions#create'
+    delete '/sessions' => 'sessions#destroy'
+
     #check for bots -> don't forget to update/test this once you have something to test
     get '*path' => 'static#bot', :constraints => IsItABot.new
 

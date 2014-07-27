@@ -21,9 +21,18 @@ class SplitTemplatesController < ApplicationController
         head status: 200
     end
 
+    def update
+        @split_template = SplitTemplate.find(params[:id])
+        if @split_template.update_attributes(split_template_params)
+            render json: @split_template
+        else
+            head status: 400
+        end
+    end
+
     private
     def split_template_params
-        params.require(split_template).permit(
+        params.require(:split_template).permit(
             :label,
             :diff_field_1,
             :diff_field_2,

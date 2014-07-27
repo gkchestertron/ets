@@ -12,6 +12,8 @@
  *
  *= require_self
  *= require_tree .
+ *= require fullcalendar
+ *= require fullcalendar.print
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
