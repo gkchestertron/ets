@@ -13,18 +13,20 @@
             </div>
             <div class="panel-body">
                 <form role="form">
-                    <div id="map-canvas"/>
+                    <div class="panel panel-default">
+                        <div id="map-canvas"/>
+                    </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="location">Location</span>
-                        <input class="form-control" value="<%= event.get('location') %>" type="text" id="location" name="location">
+                        <input class="form-control" value="<%= event.get('location') %>" type="text" id="location" data-function="findLocation" placeholder="type here to search">
+                    </div>
+                    <div class="input-group" id="description">
+                        <span class="input-group-addon" for="description">Description</span>
+                        <textarea rows="15" class="form-control" id="description" name="description"><%= event.get('description') %></textarea>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="date_time">Date and Time</span>
                         <input class="form-control" value="<%= event.get('date_time') %>" type="text" id="date_time" name="date_time">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" for="description">Description</span>
-                        <textarea class="form-control" id="description" name="description"><%= event.get('description') %></textarea>
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="import_path">Dropbox Link</span>

@@ -50,7 +50,8 @@ class EventsController < ApplicationController
                 :user_field_1_label,
                 :user_field_2_label,
                 :user_field_3_label,
-                :import
+                :import,
+                :place_id
             )
         end
 end

@@ -26,6 +26,7 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
             view,
             collection; 
             
+        baseRoute = baseRoute || 'home';
         if (Ets.Collections[baseRoute]) collection = new Ets.Collections[baseRoute];
         if (collection) {
             collection.fetch({

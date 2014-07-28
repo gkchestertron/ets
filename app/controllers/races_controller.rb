@@ -24,7 +24,7 @@ class RacesController < ApplicationController
 
     def show
         @race = Race.includes(:split_templates, :event, :users, :entries).find(params[:id])
-        render json: @race.as_json(include: [:split_templates, :event, :users, entries: { include: :splits }])
+        render json: @race.as_json(include: [:split_templates, :event, :users, entries: { except: [:email, :sms_phone, :user_field_1, :user_field_2, :user_field_3], include: :splits }])
     end
 
     def update

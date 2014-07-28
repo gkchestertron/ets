@@ -11,6 +11,7 @@ Ets.Views.events.index = Ets.Views.base.extend({
         event.destroy();
     },
     render: function () {
+        if (this.filterCollection) this.filterCollection();
         this.$el.html(this.template({ events: this.collection }));
     },
     template: JST['events/index']
@@ -27,16 +28,21 @@ Ets.Views.events.calendar = Ets.Views.events.index.extend({
         this.collection.each(function (event) {
             view.calendarEvents.push({
                 title: event.get('name'),
-                start: event.get('date_time')
+                start: event.get('date_time'),
+                id: event.id
             });
         });
+        window.view = this;
     },
     render: function () {
         var view = this;
 
         this.$el.html(this.template({ events: this.collection }));
         $('#events-calendar').fullCalendar({
-            events: view.calendarEvents
+            events: view.calendarEvents,
+            eventClick: function(calEvent, jsEvent, view) {
+                Ets.router.navigate('/events/' + calEvent.id, { trigger: true });
+            }
         });
     },
     template: JST['events/calendar']
@@ -44,10 +50,22 @@ Ets.Views.events.calendar = Ets.Views.events.index.extend({
 
 Ets.Views.events.results  = Ets.Views.events.index.extend({
     initialize: function () {
+        var view = this;
+
         this.listenTo(this.collection, 'add remove sync', this.render);
         this.collection.comparator = 'date_time';
         this.collection.sort();
         this.super();
+    },
+    filterCollection: function () {
+        var models = [];
+
+        this.collection.each(function (model) {
+            if (!(moment(model.get('date_time')).isBefore(new Date, 'day'))) {
+                models.push(model);
+            }
+        });
+        this.collection.remove(models);
     }
 });
 
@@ -58,16 +76,27 @@ Ets.Views.events.upcoming = Ets.Views.events.index.extend({
         this.collection.sort();
         this.collection.models.reverse();
         this.super();
+    },
+    filterCollection: function () {
+        var models = [];
+
+        this.collection.each(function (model) {
+            if (moment(model.get('date_time')).isBefore(new Date, 'day')) {
+                models.push(model);
+            }
+        });
+        this.collection.remove(models);
     }
 });
 
 Ets.Views.events.show = Ets.Views.base.extend({
     initialize: function () {
-        window.view = this;
         this.super();
     },
     render: function () {
         this.$el.html(this.template({ event: this.model }));
+        this.drawMap();
+        this.showLocation(true);
     },
     template: JST['events/show']
 });
@@ -161,9 +190,24 @@ Ets.Views.events.new = Ets.Views.base.extend({
             }
         });
     },
-
     render: function () {
+        var view = this;
+
         this.$el.html(this.template({ event: this.model }));
+        this.drawMap();
+        this.showLocation();
+        tinymce.editors.every(function (editor) { editor.destroy() });
+        tinymce.init({
+            selector: 'textarea',
+            init_instance_callback : "Ets.submitTinyMCE"
+        });
+
+        Ets.submitTinyMCE = function () {
+            tinymce.activeEditor.on('Change', function () {
+                var content = this.getContent();
+                view.model.save({ description: content });
+            });
+        }
     },
     template: JST['events/newdit']
 });

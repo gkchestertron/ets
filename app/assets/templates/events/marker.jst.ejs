@@ -1,0 +1,18 @@
+<%= place.name %>
+<br>
+<div style="float: left;">
+<% if (place.photos && place.photos[0]) { %>
+    <% var src = place.photos[0].getUrl({ maxWidth: 120 }); %>
+    <img src="<%= src %>" alt="<%= place.name %>">
+<% } %>
+<div>
+<div style="float: left;">
+<% var address = place.formatted_address.split(', ') %>
+<%= address[0] %>
+<br>
+<%= address[1] + ', ' + address[2] %>
+<br>
+<% if (Ets.admin) { %>
+<button data-place_id="<%=place.place_id %>" data-function="setLocation" class="btn btn-primary">Select This Location</button>
+<% } %>
+</div>

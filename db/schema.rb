@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727004443) do
+ActiveRecord::Schema.define(version: 20140727190500) do
 
   create_table "entries", force: true do |t|
     t.integer "bib_number"
@@ -78,7 +78,10 @@ ActiveRecord::Schema.define(version: 20140727004443) do
     t.string   "user_field_3_label"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "place_id"
   end
+
+  add_index "events", ["place_id"], name: "index_events_on_place_id"
 
   create_table "groups", force: true do |t|
     t.string   "age_range"
