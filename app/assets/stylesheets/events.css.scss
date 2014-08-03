@@ -21,3 +21,23 @@
 .mce-panel {
     border-color: #ccc !important;
 }
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;    
+}
+
+.cover-photo {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    background-position: 0% 0%;
+    margin-bottom: 15px;
+}
+
+.cover-photo.edit:hover {
+    cursor: pointer;
+}
+
+.map-header small {
+    font-size: 80%;
+}

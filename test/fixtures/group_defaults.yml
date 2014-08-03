@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gender: MyString
+  top_exclusions: 1
+  masters_age_start: 1
+  masters_inclusions: 1
+  grand_masters_age_start: 1
+  grand_masters_inclusions: 1
+  senior_masters_age_start: 1
+  senior_masters_inclusions: 1
+  race_id: 1
+
+two:
+  gender: MyString
+  top_exclusions: 1
+  masters_age_start: 1
+  masters_inclusions: 1
+  grand_masters_age_start: 1
+  grand_masters_inclusions: 1
+  senior_masters_age_start: 1
+  senior_masters_inclusions: 1
+  race_id: 1

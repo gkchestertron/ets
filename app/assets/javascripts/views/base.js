@@ -1,4 +1,35 @@
 Ets.Views.base = Backbone.View.extend({
+    filterCollection: function (direction, limit) {
+        var models = { past: [], future: [] },
+            sortedCollection;
+
+        this.collection.each(function (model) {
+            if (limit && models[direction].length > limit - 1) return;
+            if (moment(model.get('start_time')).isBefore(new Date, 'day')) {
+                models.past.push(model);
+            } else {
+                models.future.push(model);
+            }
+        });
+         
+        sortedCollection = new Ets.Collections.events(models[direction]);
+        sortedCollection.comparator = 'start_time';
+        sortedCollection.sort();
+        if (direction === 'past') sortedCollection.models.reverse();
+        return sortedCollection;
+    },
+    generateCalendarEvents: function () {
+        var view = this;
+
+        this.calendarEvents = [];
+        this.collection.each(function (event) {
+            view.calendarEvents.push({
+                title: event.get('name'),
+                start: event.get('start_time'),
+                id: event.id
+            });
+        });
+    },
     super: function () {
         $.extend(this.events, Ets.Views.base.prototype.events);
     },
@@ -122,6 +153,32 @@ Ets.Views.base = Backbone.View.extend({
             modelType = $form.data('model-type'),
             modelId   = $form.data('model-id');
 
+        if ($input.prop('name') === 'cover_photo') {
+            var file = $input[0].files[0],
+                fd   = new FormData(),
+                view = this;
+
+            fd.append('event[cover_photo]', file);
+            value = fd;
+            $.ajax({
+                type: 'PUT',
+                data: fd,
+                url: '/events/' + this.model.id,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    view.model.fetch({
+                        success: function () {
+                            view.render();
+                        }
+                    });
+                }
+            });
+            return false;
+        }
+        if (value === "on") {
+            value = ($input.prop('checked')) ? true : false;
+        }
         if (modelType) {
             model = Ets[modelType].get(modelId);
         } else {

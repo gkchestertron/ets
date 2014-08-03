@@ -33,6 +33,9 @@ class EventsController < ApplicationController
             if params[:import]
                 @event.import
             end
+            if params[:update]
+                @event.update_entries
+            end
             render json: @event.as_json(include: [races: { include: :split_templates }])
         else
             render status: 400
@@ -51,7 +54,13 @@ class EventsController < ApplicationController
                 :user_field_2_label,
                 :user_field_3_label,
                 :import,
-                :place_id
+                :update,
+                :place_id,
+                :finishers_only,
+                :cover_photo,
+                :cover_position,
+                :start_time,
+                :end_time
             )
         end
 end

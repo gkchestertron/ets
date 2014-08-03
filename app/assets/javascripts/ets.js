@@ -10,6 +10,8 @@ window.Ets = {
         Ets.split_templates = new Ets.Collections.split_templates();
         Ets.splits          = new Ets.Collections.splits();
         Ets.entries         = new Ets.Collections.entries();
+        Ets.groups          = new Ets.Collections.groups();
+        Ets.group_defaults  = new Ets.Collections.group_defaults();
         Ets.nav             = new Ets.Views.nav();
     }
 };
@@ -27,6 +29,9 @@ $(document).ready(function(){
             var href = $(this).attr("href"),
                 protocol = this.protocol + "//";
 
+            if (href[0] === "#") {
+                return false;
+            }
             if (href.slice(0, protocol.length) !== protocol) {
                 event.preventDefault();
                 Backbone.history.navigate(href, true);

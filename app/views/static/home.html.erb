@@ -53,9 +53,12 @@
 </nav>
 <div id="app"></div>
 <div class="footer">
-    <p>
+     <p style="float: left;">
         <img src="<%= image_path('powered-by-google-on-white.png') %>">
          and <a target="blank" href="http://github.com/gkchestertron">gkchestertron</a>
+     </p>
+    <p style="float: right;">
+         &copy;<%= Time.now.year %> Elite Timing Solutions 
      </p>
 </div>
 <% if current_user %>

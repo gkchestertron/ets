@@ -37,8 +37,18 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
                 }
             });
         } else {
-            view = new Ets.Views[baseRoute];
-            self._swapView(view);
+            if (baseRoute === 'home') {
+                collection = new Ets.Collections.events();
+                collection.fetch({
+                    success: function (collection) {
+                        view = new Ets.Views[baseRoute]({ collection: collection });
+                        self._swapView(view);
+                    }
+                });
+            } else {
+                view = new Ets.Views[baseRoute];
+                self._swapView(view);
+            }
         }
     },
     new: function (baseRoute) {

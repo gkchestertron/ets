@@ -1,9 +1,6 @@
-<div class="page-header">
-  <h1>ETS Events</small></h1>
-</div>
 <% events.each(function (event) { %>
-<a href="events/<%= event.id %>">
-<h2><%= event.get('name') || 'unnamed' %> <small><%= event.get('date_time') %> | <%= event.get('location') %></small></h2>
+<a href="/events/<%= event.id %>">
+<h4><%= event.get('name') || 'unnamed' %><br><small><%= event.get('start_time') %> | <%= event.get('location') %></small></h4>
 </a>
 <% if (Ets.admin) { %>
 <a class="btn btn-primary btn-sm" href="events/<%= event.id %>/edit"> edit </a>

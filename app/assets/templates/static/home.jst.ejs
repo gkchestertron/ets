@@ -1,1 +1,47 @@
-<h1>home</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <div id="carousel-main" class="carousel slide">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+          </ol>
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+          </div>
+
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-main" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel-main" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+                <div id="home-calendar">
+                   <%= JST['events/calendar']({ collection: collection }) %>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Upcoming Events</h3>
+            </div>
+            <div class="panel-body">
+                <%= JST['events/index']({ events: futureEvents }) %>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3>Race Results</h3>
+            </div>
+            <div class="panel-body">
+                <%= JST['events/index']({ events: pastEvents }) %>
+            </div>
+        </div>
+    </div>
+</div>
+

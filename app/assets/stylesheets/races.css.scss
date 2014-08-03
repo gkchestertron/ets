@@ -1,4 +1,22 @@
 th:hover {
-    background-color: #fb0;
+    background-color: #efefef;
     cursor: pointer;
+}
+
+button[data-function=toggleView] {
+    float:right;
+}
+
+.sort-arrows {
+    float: right;
+    font-size: 10px;
+    color: grey;
+
+    .glyphicon {
+        top: 5px;
+    }
+}
+
+.th-title {
+    float: left;
 }

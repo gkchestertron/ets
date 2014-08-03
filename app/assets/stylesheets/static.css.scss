@@ -1,5 +1,7 @@
 body {
     padding-top: 70px;
+    background: image-url('background.jpg');
+    background-size: cover;
 }
 
 .logo {
@@ -21,5 +23,58 @@ body {
         color: #999;
         margin-top: 10px;
     font-size: 12px;
+    }
+}
+
+.carousel-inner {
+    .item {
+        height: 400px;
+        overflow: hidden;
+        img {
+            min-width: 100%;
+            max-width: none;
+            min-height: 100%;
+        }
+    }
+    .carousel-caption {
+        background: rgba(0,0,0,0.5);
+        border-radius: 4px;
+    }
+}
+
+#carousel-main {
+    margin-bottom: 15px;
+}
+
+#home-calendar {
+    margin-bottom: 20px;
+    table.fc-header {
+        background: whitesmoke;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        border-collapse: initial;
+        border-radius: 4px 4px 0px 0px;
+        -webkit-border-radius: 4px 4px 0px 0px;
+        -moz-border-radius: 4px 4px 0px 0px;
+        h2 {
+            font-size: 24px;
+            margin: 0px;
+        }
+        .fc-button {
+            margin: 0px !important;
+        }
+    }
+    table.fc-border-separate {
+        background: white;
+    }
+    td.fc-header-left {
+        padding: 10px;
+    }
+    td.fc-header-right {
+        padding: 10px;
+    }
+    th:hover {
+        background: none;
+        cursor: default;
     }
 }

@@ -21,19 +21,6 @@ Ets.Views.events.calendar = Ets.Views.events.index.extend({
     initialize: function () {
         this.generateCalendarEvents();
     },
-    generateCalendarEvents: function () {
-        var view = this;
-
-        this.calendarEvents = [];
-        this.collection.each(function (event) {
-            view.calendarEvents.push({
-                title: event.get('name'),
-                start: event.get('date_time'),
-                id: event.id
-            });
-        });
-        window.view = this;
-    },
     render: function () {
         var view = this;
 
@@ -53,7 +40,7 @@ Ets.Views.events.results  = Ets.Views.events.index.extend({
         var view = this;
 
         this.listenTo(this.collection, 'add remove sync', this.render);
-        this.collection.comparator = 'date_time';
+        this.collection.comparator = 'start_time';
         this.collection.sort();
         this.super();
     },
@@ -61,7 +48,7 @@ Ets.Views.events.results  = Ets.Views.events.index.extend({
         var models = [];
 
         this.collection.each(function (model) {
-            if (!(moment(model.get('date_time')).isBefore(new Date, 'day'))) {
+            if (!(moment(model.get('start_time')).isBefore(new Date, 'day'))) {
                 models.push(model);
             }
         });
@@ -72,7 +59,7 @@ Ets.Views.events.results  = Ets.Views.events.index.extend({
 Ets.Views.events.upcoming = Ets.Views.events.index.extend({
     initialize: function () {
         this.listenTo(this.collection, 'add remove sync', this.render);
-        this.collection.comparator = 'date_time';
+        this.collection.comparator = 'start_time';
         this.collection.sort();
         this.collection.models.reverse();
         this.super();
@@ -81,7 +68,7 @@ Ets.Views.events.upcoming = Ets.Views.events.index.extend({
         var models = [];
 
         this.collection.each(function (model) {
-            if (moment(model.get('date_time')).isBefore(new Date, 'day')) {
+            if (moment(model.get('start_time')).isBefore(new Date, 'day')) {
                 models.push(model);
             }
         });
@@ -118,6 +105,29 @@ Ets.Views.events.new = Ets.Views.base.extend({
     events: {
         'form submit' : 'submit',
         'click button[type="submit"]': 'submit',
+        'mousedown div.cover-photo': 'repoCoverPhoto'
+    },
+    repoCoverPhoto: function (event) {
+        var view   = this,
+            $cover = $(event.currentTarget),
+            bg_pos = $(event.currentTarget).css('background-position').split(' ')[1],
+            y_pos  = parseInt(bg_pos.slice(0, bg_pos.length - 1));
+            y = event.pageY;
+
+        event.preventDefault();
+        $cover.on('mousemove', function (event) {
+            var y_diff  = (event.pageY - y)/4,
+                css_y = y_pos - y_diff;
+
+            event.preventDefault();
+            if (css_y < 0) css_y = 0;
+            if (css_y > 100) css_y = 100;
+            $cover.css('background-position', '0% ' + css_y + '%');
+            view.model.save({ cover_position: css_y });
+        });
+        $('body').on('mouseup', function () {
+            $cover.off();
+        });
     },
     createRace: function (event) {
         var self = this,
@@ -159,7 +169,16 @@ Ets.Views.events.new = Ets.Views.base.extend({
         });
     },
     import: function () {
-        this.model.save({ import: true });
+        var self = this;
+
+        this.model.save({ import: true }, {
+            success: function () {
+                view.render();
+            }
+        });
+    },
+    update: function () {
+        this.model.save({ update: true });
     },
     delete: function () {
         this.model.destroy({

@@ -1,6 +1,7 @@
 <div class="page-header">
     <h1><%= event.get('name') %></h1>
 </div>
+    <div class="cover-photo" style="background-image: url(<%=event.get('cover_photo').url %>); background-position: 0% <%= event.get('cover_position') || 0 %>%"></div>
 <div class="row">
     <div class="col-lg-6">
         <div class="panel panel-default event-description">
@@ -11,11 +12,6 @@
                 <%= event.get('description') %>
             </div>
         </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="panel panel-default">
-        <div id="map-canvas"/>
-        </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h1 class="panel-title">Races</h1>
@@ -25,6 +21,14 @@
                     <a href="races/<%= race.id %>"><h3><%= race.get('division') %></h3></a>
                 <% }); %>
             </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title map-header"><%= event.get('location') %> <small><%= moment(event.get('start_time')).format("dddd, MMMM Do YYYY, h:mm a") %></small></h1>
+            </div>
+            <div id="map-canvas"/>
         </div>
     </div>
 </div>

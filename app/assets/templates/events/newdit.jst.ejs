@@ -12,7 +12,14 @@
                 <h3>Event Info</h3>
             </div>
             <div class="panel-body">
+            <% if (event.id && event.get('cover_photo').url) { %>
+                <div class="cover-photo edit" style="background-image: url(<%=event.get('cover_photo').url %>); background-position: 0% <%= event.get('cover_position') || 0 %>%"></div>
+            <% } %>
                 <form role="form">
+                    <div class="input-group">
+                        <span class="input-group-addon">Cover Photo</span>
+                        <input class="form-control" type="file" name="cover_photo">
+                    </div>
                     <div class="panel panel-default">
                         <div id="map-canvas"/>
                     </div>
@@ -25,8 +32,12 @@
                         <textarea rows="15" class="form-control" id="description" name="description"><%= event.get('description') %></textarea>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-addon" for="date_time">Date and Time</span>
-                        <input class="form-control" value="<%= event.get('date_time') %>" type="text" id="date_time" name="date_time">
+                        <span class="input-group-addon" for="start_time">Start Date and Time</span>
+                        <input class="form-control" value="<%= event.get('start_time') %>" type="text" id="start_time" name="start_time">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon" for="end_time">End Date and Time</span>
+                        <input class="form-control" value="<%= event.get('end_time') %>" type="text" id="end_time" name="end_time">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="import_path">Dropbox Link</span>
@@ -46,7 +57,9 @@
                     </div>
                     <% if (event.id) { %>
                     <button class="btn btn-sm btn-default" data-function="import">Import</button>
-                    <button class="btn btn-sm btn-danger" data-function="delete">Delete Event</button>
+                    <button class="btn btn-sm btn-default" data-function="update">Update</button>
+                    <input type="checkbox" name="finishers_only" <%= (event.get('finishers_only')) ? 'checked' : '' %>> Show Finishers Only
+                    <button style="float:right;" class="btn btn-sm btn-danger" data-function="delete">Delete Event</button>
                     <% } %>
                 </form>
             </div>
@@ -91,17 +104,21 @@
                                 <div class="col-lg-3">
                                     <select name="diff_field_1"  class="form-control">
                                         <option>-- Split Field 1 --</option>
+                                        <option value="start_time" <%= (template.get('diff_field_1') === 'start_time') ? 'selected' : '' %>>Start Time</option>
                                         <% for (var i = 1; i < 11; i++) { %>
                                         <option value="split_<%= i %>" <%= (template.get('diff_field_1') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
                                         <% } %>
+                                        <option value="finish_time" <%= (template.get('diff_field_1') === 'finish_time') ? 'selected' : '' %>>Finish Time</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-3">
                                     <select name="diff_field_2"  class="form-control">
                                         <option>-- Split Field 2 --</option>
+                                        <option value="start_time" <%= (template.get('diff_field_2') === 'start_time') ? 'selected' : '' %>>Start Time</option>
                                         <% for (var i = 1; i < 11; i++) { %>
                                         <option value="split_<%= i %>" <%= (template.get('diff_field_2') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
                                         <% } %>
+                                        <option value="finish_time" <%= (template.get('diff_field_2') === 'finish_time') ? 'selected' : '' %>>Finish Time</option>
                                     </select>
                                 </div>
                             </div>

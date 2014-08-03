@@ -11,10 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727190500) do
+ActiveRecord::Schema.define(version: 20140803173907) do
+
+  create_table "carousels", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "entries", force: true do |t|
-    t.integer "bib_number"
+    t.integer "bib_number",        limit: 255
     t.string  "first_name"
     t.string  "last_name"
     t.string  "gun_start"
@@ -79,17 +84,44 @@ ActiveRecord::Schema.define(version: 20140727190500) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "place_id"
+    t.string   "database_file_path"
+    t.string   "division_file_path"
+    t.string   "group_file_path"
+    t.integer  "finishers_only",     limit: 255
+    t.string   "cover_photo"
+    t.float    "cover_position"
+    t.string   "start_time"
+    t.string   "end_time"
   end
 
+  add_index "events", ["end_time"], name: "index_events_on_end_time"
   add_index "events", ["place_id"], name: "index_events_on_place_id"
+  add_index "events", ["start_time"], name: "index_events_on_start_time"
 
-  create_table "groups", force: true do |t|
-    t.string   "age_range"
+  create_table "group_defaults", force: true do |t|
     t.string   "gender"
-    t.string   "exclusions"
+    t.integer  "top_exclusions"
+    t.integer  "masters_age_start"
+    t.integer  "masters_inclusions"
+    t.integer  "grand_masters_age_start"
+    t.integer  "grand_masters_inclusions"
+    t.integer  "senior_masters_age_start"
+    t.integer  "senior_masters_inclusions"
     t.integer  "race_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  add_index "group_defaults", ["race_id"], name: "index_group_defaults_on_race_id"
+
+  create_table "groups", force: true do |t|
+    t.string   "gender"
+    t.integer  "race_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description"
+    t.string   "bottom_age"
+    t.string   "top_age"
   end
 
   add_index "groups", ["race_id"], name: "index_groups_on_race_id"
@@ -106,6 +138,7 @@ ActiveRecord::Schema.define(version: 20140727190500) do
     t.datetime "updated_at"
     t.integer  "event_id"
     t.string   "division"
+    t.string   "group_page"
   end
 
   add_index "races", ["event_id"], name: "index_races_on_event_id"

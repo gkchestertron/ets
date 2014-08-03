@@ -5,6 +5,7 @@ Ets.Models.events = Backbone.Model.extend({
         response.races = new Ets.Collections.races(races, { parse: true });
         if (!response.id) return false;
         this.id = response.id;
+        this.set('id', response.id);
         Ets.events.add(this);
         return response;
     },

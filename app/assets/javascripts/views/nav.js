@@ -11,6 +11,7 @@ Ets.Views.nav = Ets.Views.base.extend({
         var href = Backbone.history.fragment.split('/')[0];
 
         this.$('.active').removeClass('active');
+        this.$('[href="/' + href + '"]').closest('li').addClass('active');
         this.$('[href="' + href + '"]').closest('li').addClass('active');
     },
     showLogin: function (event) {
