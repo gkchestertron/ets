@@ -1,6 +1,5 @@
 class XHRConstraint
     def matches?(request)
-        return false if request.path.split('/')[0] === 'assets'
         !request.xhr?
     end
 end
@@ -21,7 +20,7 @@ Rails.application.routes.draw do
     get '*path' => 'static#bot', :constraints => IsItABot.new
 
     #non-ajax to home path
-    get '*path' => 'static#home', :constraints => XHRConstraint.new
+    # get '*path' => 'static#home', :constraints => XHRConstraint.new
 
     root to: 'static#home'
 
