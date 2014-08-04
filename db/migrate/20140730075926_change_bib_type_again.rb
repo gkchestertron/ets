@@ -1,5 +1,6 @@
 class ChangeBibTypeAgain < ActiveRecord::Migration
   def change
-      change_column :entries, :bib_number, :integer
+      remove_column :entries. :bib_number
+      add_column :entries, :bib_number, :integer
   end
 end
