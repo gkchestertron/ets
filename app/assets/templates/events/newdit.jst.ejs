@@ -33,11 +33,11 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="start_time">Start Date and Time</span>
-                        <input class="form-control" value="<%= event.get('start_time') %>" type="text" id="start_time" name="start_time">
+                        <input class="form-control" value="<%= event.get('start_time') %>" placeholder="yyyy-mm-ddThh:mm:ss (i.e. 2014-01-01T15:00:00)" type="text" id="start_time" name="start_time">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="end_time">End Date and Time</span>
-                        <input class="form-control" value="<%= event.get('end_time') %>" type="text" id="end_time" name="end_time">
+                        <input class="form-control" value="<%= event.get('end_time') %>" type="text" placeholder="yyyy-mm-ddThh:mm:ss (i.e. 2014-01-01T15:00:00)" id="end_time" name="end_time">
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon" for="import_path">Dropbox Link</span>
