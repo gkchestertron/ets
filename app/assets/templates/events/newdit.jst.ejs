@@ -13,7 +13,7 @@
             </div>
             <div class="panel-body">
             <% if (event.id && event.get('cover_photo').url) { %>
-                <div class="cover-photo edit" style="background-image: url(<%=event.get('cover_photo').url %>); background-position: 0% <%= event.get('cover_position') || 0 %>%"></div>
+                <div class="cover-photo edit" style="background-image: url(<%=event.get('cover_photo').url %>); background-position: center <%= event.get('cover_position') || 0 %>%"></div>
             <% } %>
                 <form role="form">
                     <div class="input-group">

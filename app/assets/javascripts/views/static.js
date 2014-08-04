@@ -28,7 +28,7 @@ Ets.Views.home = Ets.Views.base.extend({
             view.$('ol.carousel-indicators')
                 .append('<li data-target="#carousel-main" data-slide-to="' + i + '" class="' + active + '"></li>');
             view.$('div.carousel-inner').append('<div class="item ' + active + 
-                '">' + '<div class="cover-photo" style="background-image: url(' + event.get('cover_photo').url +'); background-position: 0%' + event.get('cover_position') + '%;"></div>' + 
+                '">' + '<div class="cover-photo" style="background-image: url(' + event.get('cover_photo').url +'); background-position: center ' + event.get('cover_position') + '%;"></div>' + 
                 '<a href="/events/' + event.id + '"><div class="carousel-caption"><h4>' + 
                 event.get('name') + '</h4><br>' + text + '</div></a>' + '</div>'
             );

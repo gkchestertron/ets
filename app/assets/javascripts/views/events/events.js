@@ -122,7 +122,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
             event.preventDefault();
             if (css_y < 0) css_y = 0;
             if (css_y > 100) css_y = 100;
-            $cover.css('background-position', '0% ' + css_y + '%');
+            $cover.css('background-position', 'center ' + css_y + '%');
             view.model.save({ cover_position: css_y });
         });
         $('body').on('mouseup', function () {
