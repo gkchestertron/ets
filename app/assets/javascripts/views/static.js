@@ -46,6 +46,37 @@ Ets.Views.home = Ets.Views.base.extend({
 });
 
 Ets.Views.about = Ets.Views.base.extend({
+    initialize: function () {
+        var view = this; 
+
+        window.view = this;
+        this.content = new Ets.Models.contents({ title: 'about' });
+        this.content.fetch({
+            data: { content: view.content.attributes },
+            success: function () {
+                view.render('for real');
+            }
+        });
+    },
+    render: function (forReal) {
+        var view = this;
+
+        this.$el.html(this.template({ content: this.content }));
+        if (forReal === 'for real' && Ets.admin) {
+            tinymce.editors.every(function (editor) { editor.destroy() });
+            tinymce.init({
+                selector: '#about',
+                init_instance_callback : "Ets.saveContent"
+            });
+
+            Ets.saveContent = function () {
+                tinymce.activeEditor.on('Change', function () {
+                    var content = this.getContent();
+                    view.content.save({ body: content });
+                });
+            }
+        }
+    },
     template: JST['static/about']
 });
 

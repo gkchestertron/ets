@@ -37,4 +37,5 @@ Rails.application.routes.draw do
     resources :entries
     resources :events
     resources :split_templates
+    resources :contents
 end
