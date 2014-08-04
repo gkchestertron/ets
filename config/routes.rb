@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     get '*path' => 'static#bot', :constraints => IsItABot.new
 
     #non-ajax to home path
-    # get '*path' => 'static#home', :constraints => XHRConstraint.new
+    get '*path' => 'static#home', :constraints => XHRConstraint.new
 
     root to: 'static#home'
 
