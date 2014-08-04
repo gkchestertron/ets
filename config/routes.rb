@@ -1,5 +1,6 @@
 class XHRConstraint
     def matches?(request)
+        return false if request.path.split('/')[0] === 'assets'
         !request.xhr?
     end
 end
