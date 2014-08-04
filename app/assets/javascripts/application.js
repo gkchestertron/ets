@@ -14,7 +14,7 @@
 //= require moment
 //= require fullcalendar.min
 //= require tinymce.min
-//= require theme
+//= require ./themes/modern/theme.min
 //= require jquery_ujs
 //= require underscore
 //= require backbone
