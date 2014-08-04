@@ -1,7 +1,7 @@
 class CleanUp < ActiveRecord::Migration
   def change
       drop_table :addresses
-      drop_table :race_times
+      # drop_table :race_times
       remove_column :entries, :user_field_1_label
       remove_column :entries, :user_field_2_label
       remove_column :entries, :user_field_3_label
