@@ -13,7 +13,6 @@
 //= require jquery
 //= require moment
 //= require fullcalendar.min
-//= require theme.min
 //= require tinymce.min
 //= require jquery_ujs
 //= require underscore
