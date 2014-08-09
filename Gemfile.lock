@@ -144,7 +144,7 @@ DEPENDENCIES
   backbone-on-rails
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.2.0)
-  carrierwave
+  carrierwave (~> 0.9)
   carrierwave-ftp
   jbuilder (~> 2.0)
   jquery-rails
