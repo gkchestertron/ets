@@ -31,9 +31,9 @@ gem 'bootstrap-sass', '~> 3.2.0'
 gem 'bcrypt', '~> 3.1.7'
 #carrierwave for uploads
 gem 'carrierwave'
+gem 'carrierwave-ftp', :require => 'carrierwave/storage/ftp' # FTP only
 #tinymce
 gem 'tinymce-rails'
-
 # Use unicorn as the app server
 # gem 'unicorn'
 

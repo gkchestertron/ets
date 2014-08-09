@@ -1,4 +1,13 @@
 # encoding: utf-8
+CarrierWave.configure do |config|
+  config.ftp_host = "s288250878.onlinehome.us"
+  config.ftp_port = 22
+  config.ftp_user = "u53652338-collab"
+  config.ftp_passwd = "@1Sauced"
+  config.ftp_folder = "/public_html/uploads"
+  config.ftp_url = "http://uploads.collaborave.com/public_html/uploads"
+  config.ftp_passive = true # false by default
+end
 
 class CoverPhotoUploader < CarrierWave::Uploader::Base
 
@@ -7,13 +16,13 @@ class CoverPhotoUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
+  storage :ftp
   # storage :fog
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "ets/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
