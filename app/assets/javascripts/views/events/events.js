@@ -110,7 +110,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
     liveUpdate: function (event) {
         var self     = this,
             $button  = $(event.currentTarget),
-            interval = parseInt($button.closest('span').siblings('input').val());
+            interval = parseInt($button.closest('span').siblings('input').val()) || 60;
 
         this.interval = setInterval(function () {
             self.update();
