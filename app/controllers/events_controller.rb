@@ -60,7 +60,8 @@ class EventsController < ApplicationController
                 :cover_photo,
                 :cover_position,
                 :start_time,
-                :end_time
+                :end_time,
+                :live_update_interval
             )
         end
 end

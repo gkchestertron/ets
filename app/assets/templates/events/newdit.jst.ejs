@@ -60,6 +60,12 @@
                     <button class="btn btn-sm btn-default" data-function="update">Update</button>
                     <input type="checkbox" name="finishers_only" <%= (event.get('finishers_only')) ? 'checked' : '' %>> Show Finishers Only
                     <button style="float:right;" class="btn btn-sm btn-danger" data-function="delete">Delete Event</button>
+                    <hr />
+                    <div class="input-group">
+                        <span class="input-group-addon">Live Update Every:</span>
+                        <input name="live_update_interval" class="form-control" type="text" value="<%= event.get('live_update_interval') %>">
+                        <span class="input-group-btn"><button data-function="liveUpdate" class="btn btn-success">Seconds</button></span>
+                    </div>
                     <% } %>
                 </form>
             </div>

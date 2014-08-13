@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803225453) do
+ActiveRecord::Schema.define(version: 20140813045452) do
 
   create_table "carousels", force: true do |t|
     t.datetime "created_at"
@@ -96,11 +96,12 @@ ActiveRecord::Schema.define(version: 20140803225453) do
     t.string   "database_file_path"
     t.string   "division_file_path"
     t.string   "group_file_path"
-    t.integer  "finishers_only",     limit: 255
+    t.integer  "finishers_only",       limit: 255
     t.string   "cover_photo"
     t.float    "cover_position"
     t.string   "start_time"
     t.string   "end_time"
+    t.integer  "live_update_interval",             default: 60
   end
 
   add_index "events", ["end_time"], name: "index_events_on_end_time"

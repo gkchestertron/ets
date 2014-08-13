@@ -2,10 +2,28 @@ Ets.Views.races = {};
 
 Ets.Views.races.show = Ets.Views.base.extend({
     initialize: function () {
+        var self     = this,
+            interval = this.model.get('event').get('live_update_interval');
+
+        this.resetModelStuff();
+        this.listenTo(this.model, 'sync', function () {
+            this.resetModelStuff();
+            if (this.renderState === 'groups') {
+                this.drawGroups();
+            } else {
+                this.render();
+            }
+        });
+        if (moment(this.model.get('start_time')).isSame(moment(new Date), 'day')) {
+            this.interval = setInterval(function () {
+                self.model.fetch();
+            }, interval * 1000);
+        }
+        this.super();
+    },
+    resetModelStuff: function () {
         this.model.get('entries').getRanks('overall_rank');
         this.model.generateGroups();
-        this.super();
-        window.view = this;
     },
     events: {
         'click th': 'sort'
@@ -14,9 +32,11 @@ Ets.Views.races.show = Ets.Views.base.extend({
         var $button = $(event.currentTarget);
             
         if ($button.html() === 'Show Age Groups') {
+            this.renderState = 'groups';
             this.drawGroups();
             $button.html('Show All');
         } else {
+            this.renderState = 'all';
             this.render();
             $button.html('Show Age Groups');
         }

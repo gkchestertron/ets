@@ -107,6 +107,23 @@ Ets.Views.events.new = Ets.Views.base.extend({
         'click button[type="submit"]': 'submit',
         'mousedown div.cover-photo': 'repoCoverPhoto'
     },
+    liveUpdate: function (event) {
+        var self     = this,
+            $button  = $(event.currentTarget),
+            interval = parseInt($button.closest('span').siblings('input').val());
+
+        this.interval = setInterval(function () {
+            self.update();
+        }, interval * 1000);
+        $button.html('Stop!').removeClass('btn-success').addClass('btn-danger').data('function', 'stopLiveUpdates');
+    },
+    stopLiveUpdates: function (event) {
+        var self = this,
+            $button = $(event.currentTarget);
+
+        $button.html('Seconds').removeClass('btn-danger').addClass('btn-success').data('function', 'liveUpdate');
+        clearInterval(this.interval);
+    },
     repoCoverPhoto: function (event) {
         var view   = this,
             $cover = $(event.currentTarget),
