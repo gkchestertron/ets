@@ -3,7 +3,7 @@ Ets.Views.races = {};
 Ets.Views.races.show = Ets.Views.base.extend({
     initialize: function () {
         var self     = this,
-            interval = this.model.get('event').get('live_update_interval');
+            interval = this.model.get('event').get('live_update_interval') || 60;
 
         this.resetModelStuff();
         this.listenTo(this.model, 'sync', function () {
