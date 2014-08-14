@@ -81,5 +81,22 @@ Ets.Views.about = Ets.Views.base.extend({
 });
 
 Ets.Views.contact = Ets.Views.base.extend({
+    initialize: function () {
+        this.model = new Ets.Models.contact
+        this.super();
+    },
+    events: {
+        'click button': 'submit'
+    },
+    changeValue: function (event) {
+        var $input = $(event.currentTarget),
+            key    = $input.prop('name'),
+            value  = $input.val();
+
+        this.model.set(key, value);
+    },
+    submit: function () {
+        this.model.save();
+    },
     template: JST['static/contact']
 });
