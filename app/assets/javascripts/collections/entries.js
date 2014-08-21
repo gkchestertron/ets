@@ -8,34 +8,46 @@ Ets.Collections.entries = Backbone.Collection.extend({
                 'M': race_defaults.findWhere({ gender: 'M' }),
                 'F': race_defaults.findWhere({ gender: 'F' })
             },
-            top_finishers = { 'M': [], 'F': [] };
+            top_finishers = { 'M': [], 'F': [] },
+            i = 1;
             
         this.comparator = 'time';
         this.sort();
-        _.each(['M', 'F'], function (gender) {
-            var top_exclusions = defaults[gender].get('top_exclusions'),
-                i = 1;
-
-            _.each(self.where({gender: gender }), function (model) {
+    
+        if (rankAttr === 'overall_rank') {
+            this.each(function (model) {
                 model.ranks = model.ranks || {};
                 if (model.get('finish_time') != 0) {
-                    model.ranks[rankAttr] = i;
-                    if (rankAttr === 'overall_rank') {
-                        defaultAttr = 'overall_rank';
-                    } else {
-                        defaultAttr = 'age_rank';
-                        if (top_exclusions >= model.get('overall_rank')) {
-                            top_finishers[gender].push(model);
-                            return;
-                        }
-                    }
-                    model.set(defaultAttr, i);
+                    model.ranks['overall_rank'] = i;
+                    model.set('overall_rank', i);
                     i++;
                 } else {
                     models.push(model);
                 }
             });
-        });
+        } else {
+            _.each(['M', 'F'], function (gender) {
+                var top_exclusions = defaults[gender].get('top_exclusions');
+
+                _.each(self.where({gender: gender }), function (model) {
+                    model.ranks = model.ranks || {};
+                    if (model.get('finish_time') != 0) {
+                        model.ranks[rankAttr] = i;
+                        defaultAttr = 'age_rank';
+                        if (top_exclusions >= model.get('overall_rank')) {
+                            top_finishers[gender].push(model);
+                            self.remove(model);
+                            return;
+                        } else {
+                            model.set(defaultAttr, i);
+                            i++;
+                        }
+                    } else {
+                        models.push(model);
+                    }
+                });
+            });
+        }
         
         this.race.get('groups').add([
             { bottom_age: 0, description: 'Top Male Overall', gender: 'M', entries: new Ets.Collections.entries(top_finishers['M']) },
