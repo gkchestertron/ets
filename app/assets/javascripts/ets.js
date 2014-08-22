@@ -35,6 +35,8 @@ $(document).ready(function(){
             if (href.slice(0, protocol.length) !== protocol) {
                 event.preventDefault();
                 Backbone.history.navigate(href, true);
+            } else {
+                $(this).prop('target', '_blank');
             }
         });
     }
