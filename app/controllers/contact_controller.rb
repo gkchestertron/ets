@@ -1,4 +1,5 @@
 class ContactController < ApplicationController
+    skip_before_action :admin_user
     def create
         if contact_params[:name] && contact_params[:body] && contact_params[:email]
             Contact.email_john(contact_params).deliver
