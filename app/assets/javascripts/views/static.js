@@ -95,8 +95,10 @@ Ets.Views.contact = Ets.Views.base.extend({
 
         this.model.set(key, value);
     },
-    submit: function () {
+    submit: function (event) {
+        event.preventDefault();
         this.model.save();
+        this.$el.html('<h1>Thank You!</h1>');
     },
     template: JST['static/contact']
 });
