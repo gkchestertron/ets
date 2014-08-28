@@ -62,7 +62,7 @@ class Event < ActiveRecord::Base
             { page: 'G', groups: [] }
         ]
 
-        url = self.group_file_path + '?dl=1' if self.import_path.split('?').length != 2
+        url = self.group_file_path.split('?')[0] + '?dl=1'
         lineArray = open(url).read.split("\r\n")
         group_string   = @@GROUP_HEADERS   + lineArray[0..181].join("\r\n")
         default_string = @@DEFAULT_HEADERS + lineArray[182..-2].join("\r\n")
