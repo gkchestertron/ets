@@ -128,7 +128,7 @@ class Event < ActiveRecord::Base
     end
 
     def import_file(file_path, headers)
-        url = self[file_path] + '?dl=1' if self.import_path.split('?').length != 2
+        url = self[file_path].split('?')[0] + '?dl=1'        
         headers + open(url).read
     end
     
