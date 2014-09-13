@@ -5,7 +5,7 @@ Ets.Views.base = Backbone.View.extend({
 
         this.collection.each(function (model) {
             if (limit && models[direction].length > limit - 1) return;
-            if (moment(model.get('start_time')).isBefore(new Date, 'day')) {
+            if (moment(model.get('start_time')).isBefore(moment().add('day', 1), 'day')) {
                 models.past.push(model);
             } else {
                 models.future.push(model);
