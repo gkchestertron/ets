@@ -9,7 +9,9 @@ Ets.Collections.entries = Backbone.Collection.extend({
                 'F': race_defaults.findWhere({ gender: 'F' })
             },
             top_finishers = { 'M': [], 'F': [] },
-            i = 1;
+            i = 1,
+            m = 1,
+            f = 1;
             
         this.comparator = 'time';
         this.sort();
@@ -20,6 +22,13 @@ Ets.Collections.entries = Backbone.Collection.extend({
                 if (model.get('finish_time') != 0) {
                     model.ranks['overall_rank'] = i;
                     model.set('overall_rank', i);
+                    if (model.get('gender') === 'M') {
+                        model.set('gender_rank', m);
+                        m++;
+                    } else {
+                        model.set('gender_rank', f);
+                        f++;
+                    }
                     i++;
                 } else {
                     models.push(model);
@@ -29,12 +38,12 @@ Ets.Collections.entries = Backbone.Collection.extend({
             _.each(['M', 'F'], function (gender) {
                 var top_exclusions = defaults[gender].get('top_exclusions');
 
-                _.each(self.where({gender: gender }), function (model) {
+                _.each(self.where({ gender: gender }), function (model) {
                     model.ranks = model.ranks || {};
                     if (model.get('finish_time') != 0) {
                         model.ranks[rankAttr] = i;
                         defaultAttr = 'age_rank';
-                        if (top_exclusions >= model.get('overall_rank')) {
+                        if (top_exclusions >= model.get('gender_rank')) {
                             top_finishers[gender].push(model);
                             self.remove(model);
                             return;

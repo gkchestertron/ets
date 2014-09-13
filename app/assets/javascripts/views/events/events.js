@@ -190,7 +190,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
 
         this.model.save({ import: true }, {
             success: function () {
-                view.render();
+                self.render();
             }
         });
     },
