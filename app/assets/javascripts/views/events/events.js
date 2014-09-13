@@ -48,7 +48,7 @@ Ets.Views.events.results  = Ets.Views.events.index.extend({
         var models = [];
 
         this.collection.each(function (model) {
-            if (!(moment(model.get('start_time')).isBefore(new Date, 'day'))) {
+            if (!(moment(model.get('start_time')).isBefore(moment().add('day', 1), 'day'))) {
                 models.push(model);
             }
         });
@@ -68,7 +68,7 @@ Ets.Views.events.upcoming = Ets.Views.events.index.extend({
         var models = [];
 
         this.collection.each(function (model) {
-            if (moment(model.get('start_time')).isBefore(new Date, 'day')) {
+            if (moment(model.get('start_time')).isBefore(moment().add('day', 1), 'day')) {
                 models.push(model);
             }
         });
