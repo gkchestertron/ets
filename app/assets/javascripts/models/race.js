@@ -8,7 +8,10 @@ Ets.Models.races = Backbone.Model.extend({
             groups          = response.groups,
             group_defaults  = response.group_defaults;
 
-        response.entries = new Ets.Collections.entries(entries, { parse: true });
+        response.entries = new Ets.Collections.entries();
+        response.entries.start_field = response.start_field;
+        response.entries.add(entries, { parse: true });
+
         response.event   = new Ets.Models.events(event, { parse: true });
         response.groups  = new Ets.Collections.groups(groups, { parse: true });
         response.group_defaults = new Ets.Collections.group_defaults(group_defaults, { parse: true });

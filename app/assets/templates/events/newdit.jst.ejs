@@ -79,6 +79,10 @@
             <div class="panel-heading">
                 <form data-model-type="races" data-model-id="<%= race.id %>">
                     <h3 contenteditable data-name="division"><%= race.get('division') %></h3>
+                    <select name="start_field">
+                        <option value="chip_start" <%= (race.get('start_field') === 'chip_start') ? 'selected' : '' %>>Chip Start</option>
+                        <option value="gun_start" <%= (race.get('start_field') === 'gun_start') ? 'selected' : '' %>>Gun Start</option>
+                    </select>
                 </form>
             </div>
             <div class="panel-body">
@@ -111,6 +115,8 @@
                                     <select name="diff_field_1"  class="form-control">
                                         <option>-- Split Field 1 --</option>
                                         <option value="start_time" <%= (template.get('diff_field_1') === 'start_time') ? 'selected' : '' %>>Start Time</option>
+                                        <option value="chip_start" <%= (template.get('diff_field_1') === 'chip_start') ? 'selected' : '' %>>Chip Start</option>
+                                        <option value="gun_start" <%= (template.get('diff_field_1') === 'gun_start') ? 'selected' : '' %>>Gun Start</option>
                                         <% for (var i = 1; i < 11; i++) { %>
                                         <option value="split_<%= i %>" <%= (template.get('diff_field_1') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
                                         <% } %>
@@ -121,6 +127,8 @@
                                     <select name="diff_field_2"  class="form-control">
                                         <option>-- Split Field 2 --</option>
                                         <option value="start_time" <%= (template.get('diff_field_2') === 'start_time') ? 'selected' : '' %>>Start Time</option>
+                                        <option value="chip_start" <%= (template.get('diff_field_1') === 'chip_start') ? 'selected' : '' %>>Chip Start</option>
+                                        <option value="gun_start" <%= (template.get('diff_field_1') === 'gun_start') ? 'selected' : '' %>>Gun Start</option>
                                         <% for (var i = 1; i < 11; i++) { %>
                                         <option value="split_<%= i %>" <%= (template.get('diff_field_2') === 'split_' + i) ? 'selected' : '' %>>Split <%= i %></option>
                                         <% } %>

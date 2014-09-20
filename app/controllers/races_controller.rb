@@ -40,7 +40,8 @@ class RacesController < ApplicationController
         def race_params
             params.require(:race).permit(
                 :division,
-                :event_id
+                :event_id,
+                :start_field
             )
         end
 end

@@ -1,6 +1,17 @@
 Ets.Models.entries = Backbone.Model.extend({
     initialize: function (options) {
-        this.set('race', options.race);
+        var race = options.race || this.collection.race,
+            start        = this.collection.start_field || 'chip_start',
+            backup_start = (start === 'chip_start') ? 'gun_start' : 'chip_start',
+            start_time   = (this.get(start) === '0') ? this.get(backup_start) : this.get(start),
+            time         = (this.get('finish_time').toMsec() - start_time.toMsec()).toRaceTime();
+
+        if (time === 'NaN:NaN:NaN.NaN') time = 'N/A';
+        this.set({
+            race       : race,
+            start_time : start_time,
+            time       : time
+        });
     },
     parse: function (response) {
         var splits = response.splits;
