@@ -36,7 +36,7 @@ Ets.Collections.entries = Backbone.Collection.extend({
             });
         } else {
             _.each(['M', 'F'], function (gender) {
-                var top_exclusions = defaults[gender].get('top_exclusions');
+                var top_exclusions = (defaults[gender]) ? defaults[gender].get('top_exclusions') : 0;
 
                 _.each(self.where({ gender: gender }), function (model) {
                     model.ranks = model.ranks || {};
