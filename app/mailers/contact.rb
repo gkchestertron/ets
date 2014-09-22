@@ -5,4 +5,9 @@ class Contact < ActionMailer::Base
       @params = params
       mail(to: 'john.fellman@gmail.com', subject: params[:subject])
   end
+
+  def email_tim(params)
+      @params = params
+      mail(to: 'tim@elitetimingsolutions.com', subject: params[:subject])
+  end
 end
