@@ -3,6 +3,9 @@ Ets.Views.base = Backbone.View.extend({
         var models = { past: [], future: [] },
             sortedCollection;
 
+        this.collection.comparator = 'start_time';
+        this.collection.sort();
+        if (direction === 'past') this.collection.models.reverse();
         this.collection.each(function (model) {
             if (limit && models[direction].length > limit - 1) return;
             if (moment(model.get('start_time')).isBefore(moment().add('day', 1), 'day')) {
@@ -13,9 +16,6 @@ Ets.Views.base = Backbone.View.extend({
         });
          
         sortedCollection = new Ets.Collections.events(models[direction]);
-        sortedCollection.comparator = 'start_time';
-        sortedCollection.sort();
-        if (direction === 'past') sortedCollection.models.reverse();
         return sortedCollection;
     },
     generateCalendarEvents: function () {
