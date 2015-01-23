@@ -11,7 +11,7 @@ require 'carrierwave/storage/ftp'
 #   config.ftp_passive = true # false by default
 # end
 CarrierWave.configure do |config|
-  config.ftp_host = "s288250878.onlinehome.us"
+  config.ftp_host = "74.208.176.150"
   config.ftp_port = 21
   config.ftp_user = "u53652338-ets"
   config.ftp_passwd = "@1Sauc3d"
