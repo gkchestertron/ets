@@ -5,7 +5,7 @@ Ets.Views.base = Backbone.View.extend({
 
         this.collection.comparator = 'start_time';
         this.collection.sort();
-        if (direction === 'past') this.collection.models.reverse();
+        if (direction !== 'future') this.collection.models.reverse();
         this.collection.each(function (model) {
             if (limit && models[direction].length > limit - 1) return;
             if (moment(model.get('start_time')).isBefore(moment().add('day', 1), 'day')) {
@@ -128,11 +128,11 @@ Ets.Views.base = Backbone.View.extend({
         return marker;
     },
     events: {
-        'change select[name], input[name], textarea[name]': 'changeValue',
-        'blur [contenteditable]': 'changeValue',
-        'click [data-function]': 'buttonFunction',
-        'change [data-function]': 'buttonFunction',
-        'submit form': 'prevent'
+        'change select[name], input[name], textarea[name]' : 'changeValue',
+        'blur [contenteditable]'                           : 'changeValue',
+        'click [data-function]'                            : 'buttonFunction',
+        'change [data-function]'                           : 'buttonFunction',
+        'submit form'                                      : 'prevent'
     },
     prevent: function (event) {
         event.preventDefault();
@@ -151,7 +151,8 @@ Ets.Views.base = Backbone.View.extend({
             key       = $input.prop('name') || $input.data('name'),
             value     = $input.val() || $input.text(),
             modelType = $form.data('model-type'),
-            modelId   = $form.data('model-id');
+            modelId   = $form.data('model-id'),
+            model;
 
         if ($input.prop('name') === 'cover_photo') {
             var file = $input[0].files[0],
@@ -174,24 +175,39 @@ Ets.Views.base = Backbone.View.extend({
                     });
                 }
             });
+
             return false;
         }
+
         if (value === "on") {
             value = ($input.prop('checked')) ? true : false;
         }
+
         if (modelType) {
             model = Ets[modelType].get(modelId);
-        } else {
+        } 
+        else {
             model = this.model;
         }
+
         if (model) {
             model.set(key, value);
-            model.save();
         }
     },
     render: function () {
         var vars =  { model: this.model, collection: this.collection };
         this.$el.html(this.template(vars));
+    },
+    save: function (event) {
+        this.model.save();
+
+        this.model.get('races').each(function (race) {
+            race.save();
+
+            race.get('split_templates').each(function (split_template) {
+                split_template.save();
+            });
+        });
     },
     markerTemplate: JST['events/marker']
 });

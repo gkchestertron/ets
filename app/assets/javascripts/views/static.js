@@ -5,14 +5,16 @@ Ets.Views.home = Ets.Views.base.extend({
     render: function () {
         var view = this,
             i    = 0,
-            active;
+            active,
+            futureEvents = this.filterCollection('future', 5),
+            pastEvents   = this.filterCollection('past', 5);
 
         this.$el.html(this.template({ 
             collection: this.collection,
-            futureEvents: this.filterCollection('future', 5),
-            pastEvents: this.filterCollection('past', 5) 
+            futureEvents: futureEvents,
+            pastEvents: pastEvents
         }));
-        this.collection.each(function (event) {
+        _.each(pastEvents.models.concat(futureEvents.models), function (event) {
             var text    = $('<div>' + event.get('description') + '</div>').text().slice(0, 255) + '...';
 
             if (!(event.get('cover_photo').url)) { 

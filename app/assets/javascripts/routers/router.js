@@ -52,7 +52,7 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
         }
     },
     new: function (baseRoute) {
-        var model = new Ets.Models.events,
+        var model = new Ets.Models.events({ name: 'New Event' }),
             view  = new Ets.Views[baseRoute].new({ model: model });
 
         this._swapView(view);
