@@ -12,6 +12,7 @@
                 <%= event.get('description') %>
             </div>
         </div>
+        <% if (event.get('races').length) { %>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h1 class="panel-title">Races</h1>
@@ -22,6 +23,7 @@
                 <% }); %>
             </div>
         </div>
+        <% } %>
     </div>
     <div class="col-lg-6">
         <div class="panel panel-default">
