@@ -241,7 +241,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
         Ets.submitTinyMCE = function () {
             tinymce.activeEditor.on('Change', function () {
                 var content = this.getContent();
-                view.model.save({ description: content });
+                view.model.set({ description: content });
             });
         }
     },
