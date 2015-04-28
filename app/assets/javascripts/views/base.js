@@ -131,7 +131,6 @@ Ets.Views.base = Backbone.View.extend({
         'change select[name], input[name], textarea[name]' : 'changeValue',
         'blur [contenteditable]'                           : 'changeValue',
         'click [data-function]'                            : 'buttonFunction',
-        'change [data-function]'                           : 'buttonFunction',
         'submit form'                                      : 'prevent'
     },
     prevent: function (event) {
