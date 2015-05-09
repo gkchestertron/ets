@@ -198,7 +198,18 @@ Ets.Views.base = Backbone.View.extend({
         this.$el.html(this.template(vars));
     },
     save: function (event) {
-        this.model.save();
+        var self = this;
+
+        this.model.save({}, {
+            success: function () {
+                self.render();
+            },
+            error: function () {
+                self.render();
+            }
+        });
+
+        this.$('input').prop('disabled', true);
 
         this.model.get('races').each(function (race) {
             race.save();

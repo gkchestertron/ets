@@ -220,6 +220,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
             id   = this.model.id;
 
         event.preventDefault();
+
         this.model.save({}, {
             success: function () {
                 if(!id) Ets.router.navigate('events/' + self.model.id + '/edit');
