@@ -227,7 +227,8 @@ Ets.Views.events.new = Ets.Views.base.extend({
         });
     },
     render: function () {
-        var view = this;
+        var view   = this,
+            scroll = $('body').scrollTop();
 
         this.$el.html(this.template({ event: this.model }));
         this.drawMap();
@@ -244,6 +245,8 @@ Ets.Views.events.new = Ets.Views.base.extend({
                 view.model.set({ description: content });
             });
         }
+
+        $('body').scrollTop(scroll);
     },
     template: JST['events/newdit']
 });
