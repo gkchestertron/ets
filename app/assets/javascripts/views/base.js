@@ -198,26 +198,36 @@ Ets.Views.base = Backbone.View.extend({
         this.$el.html(this.template(vars));
     },
     save: function (event) {
-        var self = this;
+        var self      = this,
+            sent      = 0,
+            received  = 0,
+            callbacks = {
+                success : renderGate,
+                error   : renderGate
+            };
 
-        this.model.save({}, {
-            success: function () {
-                self.render();
-            },
-            error: function () {
-                self.render();
-            }
-        });
 
         this.$('input').prop('disabled', true);
 
         this.model.get('races').each(function (race) {
-            race.save();
+            race.save({}, callbacks);
+            sent++;
 
             race.get('split_templates').each(function (split_template) {
-                split_template.save();
+                split_template.save({}, callbacks);
+                sent++;
             });
         });
+
+        function renderGate() {
+            received++;
+            if (sent === received) {
+                self.model.save({}, {
+                    success : self.render.bind(self),
+                    error   : self.render.bind(self)
+                });
+            }
+        }
     },
     markerTemplate: JST['events/marker']
 });
