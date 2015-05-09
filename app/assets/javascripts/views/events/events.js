@@ -188,14 +188,22 @@ Ets.Views.events.new = Ets.Views.base.extend({
     import: function () {
         var self = this;
 
+        $('input').prop('disabled', true);
+
         this.model.save({ import: true }, {
-            success: function () {
-                self.render();
-            }
+            success : self.render.bind(self),
+            error   : self.render.bind(self)
         });
     },
     update: function () {
-        this.model.save({ update: true });
+        var self = this;
+
+        $('input').prop('disabled', true);
+
+        this.model.save({ update: true },{
+            success : self.render.bind(self),
+            error   : self.render.bind(self)
+        });
     },
     delete: function () {
         this.model.destroy({
