@@ -209,15 +209,23 @@ Ets.Views.base = Backbone.View.extend({
 
         this.$('input').prop('disabled', true);
 
-        this.model.get('races').each(function (race) {
-            race.save({}, callbacks);
-            sent++;
-
-            race.get('split_templates').each(function (split_template) {
-                split_template.save({}, callbacks);
+        if (this.model.get('races').length) {
+            this.model.get('races').each(function (race) {
+                race.save({}, callbacks);
                 sent++;
+
+                race.get('split_templates').each(function (split_template) {
+                    split_template.save({}, callbacks);
+                    sent++;
+                });
             });
-        });
+        }
+        else {
+            self.model.save({}, {
+                success : self.render.bind(self),
+                error   : self.render.bind(self)
+            });
+        }
 
         function renderGate() {
             received++;

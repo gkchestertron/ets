@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 20140920170502) do
   add_index "contents", ["title"], name: "index_contents_on_title"
 
   create_table "entries", force: true do |t|
-    t.integer "bib_number",        limit: 255
     t.string  "first_name"
     t.string  "last_name"
     t.string  "gun_start"
@@ -64,6 +63,7 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.string  "photo_files"
     t.integer "user_id"
     t.integer "race_id"
+    t.integer "bib_number"
   end
 
   add_index "entries", ["age"], name: "index_entries_on_age"
@@ -96,15 +96,18 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.string   "database_file_path"
     t.string   "division_file_path"
     t.string   "group_file_path"
-    t.integer  "finishers_only",       limit: 255
+    t.integer  "finishers_only"
     t.string   "cover_photo"
     t.float    "cover_position"
     t.string   "start_time"
     t.string   "end_time"
-    t.integer  "live_update_interval",             default: 60
+    t.integer  "live_update_interval", default: 60
   end
 
+  add_index "events", ["date_time"], name: "index_events_on_date_time"
   add_index "events", ["end_time"], name: "index_events_on_end_time"
+  add_index "events", ["location"], name: "index_events_on_location"
+  add_index "events", ["name"], name: "index_events_on_name"
   add_index "events", ["place_id"], name: "index_events_on_place_id"
   add_index "events", ["start_time"], name: "index_events_on_start_time"
 
