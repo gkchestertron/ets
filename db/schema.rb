@@ -11,14 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140920170502) do
+ActiveRecord::Schema.define(version: 20151124020346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "assoc_contact_event", force: true do |t|
+    t.integer "contact_id"
+    t.integer "event_id"
+    t.boolean "contact_is_primary"
+  end
+
   create_table "carousels", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "contacts", force: true do |t|
+    t.string "company_name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "title"
+    t.string "email"
+    t.string "phone"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.text   "notes"
   end
 
   create_table "contents", force: true do |t|
@@ -84,6 +104,15 @@ ActiveRecord::Schema.define(version: 20140920170502) do
   add_index "entries", ["unique_id"], name: "index_entries_on_unique_id", using: :btree
   add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
+  create_table "event_groups", force: true do |t|
+    t.string  "name"
+    t.integer "contact_id"
+  end
+
+  create_table "event_types", force: true do |t|
+    t.string "name"
+  end
+
   create_table "events", force: true do |t|
     t.string   "name"
     t.text     "location"
@@ -104,7 +133,22 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.float    "cover_position"
     t.string   "start_time"
     t.string   "end_time"
-    t.integer  "live_update_interval", default: 60
+    t.integer  "live_update_interval",     default: 60
+    t.integer  "event_type_id"
+    t.string   "website"
+    t.string   "street"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.integer  "number_of_participants"
+    t.string   "online_registration_link"
+    t.integer  "billing_contact_id"
+    t.string   "notes"
+    t.string   "results_url"
+    t.string   "course_map_url"
+    t.integer  "timer_id"
+    t.integer  "event_group_id"
+    t.boolean  "is_visible"
   end
 
   add_index "events", ["date_time"], name: "index_events_on_date_time", using: :btree
@@ -181,6 +225,18 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.integer  "order"
     t.float    "distance"
     t.float    "rate"
+  end
+
+  create_table "timers", force: true do |t|
+    t.string "name"
+    t.string "url"
+    t.string "phone"
+    t.string "equipment"
+    t.string "email"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
   end
 
   create_table "users", force: true do |t|
