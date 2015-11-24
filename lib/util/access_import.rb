@@ -35,8 +35,8 @@ module AccessImport
         # if it has a contact_id find or create that contact and update event with its id
         # many to many assoc
         if row['contact_email']
-          contact = Contact.find_by_email(row['contact_email'])
-          contact ||= Contact.create(
+          contact = EventContact.find_by_email(row['contact_email'])
+          contact ||= EventContact.create(
             email: row['contact_email'], 
             first_name: row['ContactFirstName'],
             last_name: row['ContactLastName'],
@@ -46,8 +46,8 @@ module AccessImport
 
         # if it has a CompanyName build contact and make it the billing_contact_id for event
         if row['CompanyName']
-          billing_contact = Contact.find_by_company_name(row['CompanyName'])
-          billing_contact ||= Contact.create(
+          billing_contact = EventContact.find_by_company_name(row['CompanyName'])
+          billing_contact ||= EventContact.create(
             company_name: row['CompanyName'],
             street: row['BillingAddress'],
             city: row['BillingCity'],
@@ -61,7 +61,7 @@ module AccessImport
 
         # make event => contact assoc
         if contact
-          AssocContactEvent.create(event_id: event.id, contact_id: contact.id)
+          AssocContactEvent.create(event_id: event.id, event_contact_id: contact.id)
         end
       end
     end
