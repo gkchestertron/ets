@@ -14,11 +14,11 @@ class Event < ActiveRecord::Base
 
     has_many :races, dependent: :destroy
     has_many :assoc_contact_events
-    has_many :contacts, through: :assoc_contact_events
+    has_many :event_contacts, through: :assoc_contact_events
     belongs_to :timer
     belongs_to :event_group
     belongs_to :event_type
-    belongs_to :billing_contact, class_name: "Contact"
+    belongs_to :billing_contact, class_name: "EventContact"
 
 
     def import

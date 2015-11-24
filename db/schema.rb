@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124020346) do
+ActiveRecord::Schema.define(version: 20151124185106) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,20 +25,6 @@ ActiveRecord::Schema.define(version: 20151124020346) do
   create_table "carousels", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "contacts", force: true do |t|
-    t.string "company_name"
-    t.string "first_name"
-    t.string "last_name"
-    t.string "title"
-    t.string "email"
-    t.string "phone"
-    t.string "street"
-    t.string "city"
-    t.string "state"
-    t.string "zip"
-    t.text   "notes"
   end
 
   create_table "contents", force: true do |t|
@@ -103,6 +89,20 @@ ActiveRecord::Schema.define(version: 20151124020346) do
   add_index "entries", ["team_name"], name: "index_entries_on_team_name", using: :btree
   add_index "entries", ["unique_id"], name: "index_entries_on_unique_id", using: :btree
   add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
+
+  create_table "event_contacts", force: true do |t|
+    t.string "company_name"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "title"
+    t.string "email"
+    t.string "phone"
+    t.string "street"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.text   "notes"
+  end
 
   create_table "event_groups", force: true do |t|
     t.string  "name"
