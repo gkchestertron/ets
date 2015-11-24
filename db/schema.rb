@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124185457) do
+ActiveRecord::Schema.define(version: 20151124191258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "assoc_contact_event", force: true do |t|
+  create_table "assoc_contact_events", force: true do |t|
     t.integer "event_contact_id"
     t.integer "event_id"
     t.boolean "contact_is_primary"
