@@ -2,6 +2,7 @@ require 'open-uri'
 require 'csv'
 
 class Event < ActiveRecord::Base
+    extend AccessImport
     mount_uploader :cover_photo, CoverPhotoUploader
     @@DBHEADERS = "bib_number,first_name,last_name,gun_start,chip_start,split_1,split_2,split_3,split_4,split_5,split_6,split_7,split_8,split_9,split_10,adjustment_time,finish_time,gun_elapsed_time,chip_elapsed_time,age,division,gender,city,state,team_name,team_order,sms_phone,email,chip_number,user_field_1,user_field_2,user_field_3,unique_id,photo_files\r\n"
     
@@ -12,6 +13,12 @@ class Event < ActiveRecord::Base
     @@DEFAULT_HEADERS  = "m_top_exclusions,f_top_exclusions,m_masters_age_start,f_masters_age_start,m_masters_inclusions,f_masters_inclusions,m_grand_masters_age_start,f_grand_masters_age_start,m_grand_masters_inclusions,f_grand_masters_inclusions,m_senior_masters_age_start,f_senior_masters_age_start,m_senior_masters_inclusions,f_senior_masters_inclusions\r\n"
 
     has_many :races, dependent: :destroy
+    has_many :assoc_contact_events
+    has_many :contacts, through: :assoc_contact_events
+    belongs_to :timer
+    belongs_to :event_group
+    belongs_to :event_type
+    belongs_to :billing_contact, class_name: "Contact"
 
 
     def import

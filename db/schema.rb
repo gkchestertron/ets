@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140920170502) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "carousels", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.datetime "updated_at"
   end
 
-  add_index "contents", ["title"], name: "index_contents_on_title"
+  add_index "contents", ["title"], name: "index_contents_on_title", using: :btree
 
   create_table "entries", force: true do |t|
     t.string  "first_name"
@@ -66,20 +69,20 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.integer "bib_number"
   end
 
-  add_index "entries", ["age"], name: "index_entries_on_age"
-  add_index "entries", ["chip_number"], name: "index_entries_on_chip_number"
-  add_index "entries", ["city"], name: "index_entries_on_city"
-  add_index "entries", ["division"], name: "index_entries_on_division"
-  add_index "entries", ["email"], name: "index_entries_on_email"
-  add_index "entries", ["first_name"], name: "index_entries_on_first_name"
-  add_index "entries", ["gender"], name: "index_entries_on_gender"
-  add_index "entries", ["last_name"], name: "index_entries_on_last_name"
-  add_index "entries", ["race_id"], name: "index_entries_on_race_id"
-  add_index "entries", ["sms_phone"], name: "index_entries_on_sms_phone"
-  add_index "entries", ["state"], name: "index_entries_on_state"
-  add_index "entries", ["team_name"], name: "index_entries_on_team_name"
-  add_index "entries", ["unique_id"], name: "index_entries_on_unique_id"
-  add_index "entries", ["user_id"], name: "index_entries_on_user_id"
+  add_index "entries", ["age"], name: "index_entries_on_age", using: :btree
+  add_index "entries", ["chip_number"], name: "index_entries_on_chip_number", using: :btree
+  add_index "entries", ["city"], name: "index_entries_on_city", using: :btree
+  add_index "entries", ["division"], name: "index_entries_on_division", using: :btree
+  add_index "entries", ["email"], name: "index_entries_on_email", using: :btree
+  add_index "entries", ["first_name"], name: "index_entries_on_first_name", using: :btree
+  add_index "entries", ["gender"], name: "index_entries_on_gender", using: :btree
+  add_index "entries", ["last_name"], name: "index_entries_on_last_name", using: :btree
+  add_index "entries", ["race_id"], name: "index_entries_on_race_id", using: :btree
+  add_index "entries", ["sms_phone"], name: "index_entries_on_sms_phone", using: :btree
+  add_index "entries", ["state"], name: "index_entries_on_state", using: :btree
+  add_index "entries", ["team_name"], name: "index_entries_on_team_name", using: :btree
+  add_index "entries", ["unique_id"], name: "index_entries_on_unique_id", using: :btree
+  add_index "entries", ["user_id"], name: "index_entries_on_user_id", using: :btree
 
   create_table "events", force: true do |t|
     t.string   "name"
@@ -104,12 +107,12 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.integer  "live_update_interval", default: 60
   end
 
-  add_index "events", ["date_time"], name: "index_events_on_date_time"
-  add_index "events", ["end_time"], name: "index_events_on_end_time"
-  add_index "events", ["location"], name: "index_events_on_location"
-  add_index "events", ["name"], name: "index_events_on_name"
-  add_index "events", ["place_id"], name: "index_events_on_place_id"
-  add_index "events", ["start_time"], name: "index_events_on_start_time"
+  add_index "events", ["date_time"], name: "index_events_on_date_time", using: :btree
+  add_index "events", ["end_time"], name: "index_events_on_end_time", using: :btree
+  add_index "events", ["location"], name: "index_events_on_location", using: :btree
+  add_index "events", ["name"], name: "index_events_on_name", using: :btree
+  add_index "events", ["place_id"], name: "index_events_on_place_id", using: :btree
+  add_index "events", ["start_time"], name: "index_events_on_start_time", using: :btree
 
   create_table "group_defaults", force: true do |t|
     t.string   "gender"
@@ -125,7 +128,7 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.datetime "updated_at"
   end
 
-  add_index "group_defaults", ["race_id"], name: "index_group_defaults_on_race_id"
+  add_index "group_defaults", ["race_id"], name: "index_group_defaults_on_race_id", using: :btree
 
   create_table "groups", force: true do |t|
     t.string   "gender"
@@ -137,7 +140,7 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.string   "top_age"
   end
 
-  add_index "groups", ["race_id"], name: "index_groups_on_race_id"
+  add_index "groups", ["race_id"], name: "index_groups_on_race_id", using: :btree
 
   create_table "race_directorships", force: true do |t|
     t.integer  "user_id"
@@ -155,7 +158,7 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.string   "start_field"
   end
 
-  add_index "races", ["event_id"], name: "index_races_on_event_id"
+  add_index "races", ["event_id"], name: "index_races_on_event_id", using: :btree
 
   create_table "split_templates", force: true do |t|
     t.string   "label"
@@ -193,6 +196,6 @@ ActiveRecord::Schema.define(version: 20140920170502) do
     t.integer  "admin"
   end
 
-  add_index "users", ["session_token"], name: "index_users_on_session_token"
+  add_index "users", ["session_token"], name: "index_users_on_session_token", using: :btree
 
 end
