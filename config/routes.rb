@@ -39,4 +39,5 @@ Rails.application.routes.draw do
     resources :split_templates
     resources :contents
     resources :contact
+    resources :contacts
 end

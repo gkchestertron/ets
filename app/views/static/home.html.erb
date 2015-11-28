@@ -26,6 +26,9 @@
         </li>
         <li><a href="/about">About</a></li>
         <li><a href="/contact">Contact</a></li>
+        <% if current_user and current_user.admin %>
+        <li><a href="admin_browser">Admin Browser</a></li>
+        <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
        <% if !current_user %>

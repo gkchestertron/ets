@@ -3,11 +3,34 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
         this.$rootEl = $('#app');
     },
     routes: {
-        ''                   : 'index',
-        ':baseRoute'         : 'index',
-        ':baseRoute/new'     : 'new',
-        ':baseRoute/:id'     : 'show',
-        ':baseRoute/:id/edit': 'edit'
+        ''                    : 'index',
+        'admin_browser'       : 'admin_browser_index',
+        'admin_browser/:route': 'admin_browser_show',
+        ':baseRoute'          : 'index',
+        ':baseRoute/new'      : 'new',
+        ':baseRoute/:id'      : 'show',
+        ':baseRoute/:id/edit' : 'edit',
+    },
+    admin_browser_index: function () {
+        var view = new Ets.Views.AdminBrowser.Index();
+        this._swapView(view);
+    },
+    admin_browser_show: function (path) {
+        var self = this,
+            collection = new Ets.Collections.AdminBrowser(path);
+
+        collection.fetch({
+            success: function () {
+                var view = new Ets.Views.AdminBrowser.Show({
+                        collection: collection
+                    });
+
+                self._swapView(view);                        
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
     },
     edit: function (baseRoute, id) {
         var self  = this,

@@ -18,13 +18,14 @@ class EventsController < ApplicationController
     end
 
     def index
-        @events = Event.all.includes(:races)
+        query = request.query_parameters
+        @events = Event.where(query).includes(:races).order(:id)
         render json: @events.as_json(include: :races)
     end
 
     def show
-        @event = Event.includes(:races).find(params[:id])
-        render json: @event.as_json(include: [races: { include: :split_templates }])
+        @event = Event.includes(:races, :interactions, :event_contacts).find(params[:id])
+        render json: @event.as_json(include: [:interactions, :event_contacts, {races: { include: :split_templates } }])
     end
 
     def update
@@ -45,23 +46,42 @@ class EventsController < ApplicationController
     private
         def event_params
             params.require(:event).permit(
-                :name, 
-                :location,
-                :date_time,
-                :description,
-                :import_path,
-                :user_field_1_label,
-                :user_field_2_label,
-                :user_field_3_label,
-                :import,
-                :update,
-                :place_id,
-                :finishers_only,
-                :cover_photo,
-                :cover_position,
-                :start_time,
-                :end_time,
-                :live_update_interval
+              :id,
+              :name,
+              :location,
+              :date_time,
+              :description,
+              :import_path,
+              :user_field_1_label,
+              :user_field_2_label,
+              :user_field_3_label,
+              :created_at,
+              :updated_at,
+              :place_id,
+              :database_file_path,
+              :division_file_path,
+              :group_file_path,
+              :finishers_only,
+              :cover_photo,
+              :cover_position,
+              :start_time,
+              :end_time,
+              :live_update_interval,
+              :event_type_id,
+              :website,
+              :street,
+              :city,
+              :state,
+              :zip,
+              :number_of_participants,
+              :online_registration_link,
+              :billing_contact_id,
+              :notes,
+              :results_url,
+              :course_map_url,
+              :timer_id,
+              :event_group_id,
+              :is_visible
             )
         end
 end
