@@ -107,6 +107,104 @@ Ets.Views.events.new = Ets.Views.base.extend({
         'click button[type="submit"]': 'submit',
         'mousedown div.cover-photo': 'repoCoverPhoto'
     },
+
+    addContact: function (event) {
+        var self       = this,
+            $button    = $(event.currentTarget),
+            $form      = $button.closest('form'),
+            $select    = $form.find('select'),
+            contactId  = $select.val(),
+            eventId    = this.model.id,
+            assocModel = new Ets.Models.AssocContactEvent;
+
+        if (!this.model.id) alert('Please save event before making associations.');
+
+        assocModel.save({
+            event_id: eventId,
+            event_contact_id: contactId
+        }, {
+            success: function () {
+                self.model.get('event_contacts').add(Ets.event_contacts.get(contactId));
+                self.render();
+            }
+        });
+
+    },
+
+    createContact: function (event) {
+        var self    = this,
+            $button = $(event.currentTarget),
+            $form   = $button.closest('form'),
+            $inputs = $form.find('input'),
+            props   = { event_id: this.model.id };
+
+        $inputs.each(function (idx, input) {
+            var $input = $(input),
+                value  = input.type === 'checkbox' ? $input.prop('checked') : $input.val();
+
+            props[$input.prop('name')] = value;
+        });
+
+        this.model.get('event_contacts').create(props,{
+            success: function (model) {
+                self.model.get('assoc_contact_events').create({
+                        event_contact_id: model.id,
+                        event_id: self.model.id
+                }, {
+                    success: self.render.bind(self)
+                });
+            }
+        });
+    },
+
+
+    deleteContact: function (event) {
+        var self = this,
+            $button = $(event.currentTarget),
+            $tr     = $button.closest('tr'),
+            modelId = $tr.data('model-id'),
+            model   = this.model.get('assoc_contact_events').findWhere({ event_contact_id: modelId });
+
+        if (model) {
+            model.destroy({
+                success: function () {
+                    self.model.get('event_contacts').remove(modelId);
+                    self.render();
+                }
+            });
+        }
+    },
+
+    addInteraction: function (event) {
+        var self    = this,
+            $button = $(event.currentTarget),
+            $form   = $button.closest('form'),
+            $inputs = $form.find('input'),
+            props   = { event_id: this.model.id };
+
+        $inputs.each(function (idx, input) {
+            var $input = $(input),
+                value  = input.type === 'checkbox' ? $input.prop('checked') : $input.val();
+
+            props[$input.prop('name')] = value;
+        });
+
+        this.model.get('interactions').create(props,{
+            success: function () {
+                self.render();
+            }
+        });
+    },
+
+    deleteInteraction: function (event) {
+        var $button = $(event.currentTarget),
+            $tr     = $button.closest('tr'),
+            modelId = $tr.data('model-id'),
+            model   = this.model.get('interactions').get(modelId);
+
+        model.destroy({ success: this.render.bind(this) });
+    },
+
     liveUpdate: function (event) {
         var self     = this,
             $button  = $(event.currentTarget),
@@ -239,7 +337,7 @@ Ets.Views.events.new = Ets.Views.base.extend({
         var view   = this,
             scroll = $('body').scrollTop();
 
-        this.$el.html(this.template({ event: this.model }));
+        this.$el.html(this.template({ event: this.model, event_contacts: Ets.event_contacts }));
         this.drawMap();
         this.showLocation();
         tinymce.editors.every(function (editor) { editor.destroy() });

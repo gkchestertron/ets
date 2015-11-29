@@ -40,7 +40,11 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
         model.fetch({
             success: function (model) {
                 view = new Ets.Views[baseRoute].edit({ model: model });
-                self._swapView(view);
+                Ets.event_contacts.fetch({
+                    success: function () {
+                        self._swapView(view);
+                    }
+                });
             }
         });
     },
@@ -75,10 +79,15 @@ Ets.Routers.mainRouter = Backbone.Router.extend({
         }
     },
     new: function (baseRoute) {
-        var model = new Ets.Models.events({ name: 'New Event' }),
+        var self  = this,
+            model = new Ets.Models.events({ name: 'New Event' }),
             view  = new Ets.Views[baseRoute].new({ model: model });
 
-        this._swapView(view);
+        Ets.event_contacts.fetch({
+            success: function () {
+                self._swapView(view);
+            }
+        });
     },
     search: function (baseRoute, name) {
         //get a collection based on the name

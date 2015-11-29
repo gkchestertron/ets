@@ -24,8 +24,8 @@ class EventsController < ApplicationController
     end
 
     def show
-        @event = Event.includes(:races, :interactions, :event_contacts).find(params[:id])
-        render json: @event.as_json(include: [:interactions, :event_contacts, {races: { include: :split_templates } }])
+        @event = Event.includes(:races, :interactions, :event_contacts, :assoc_contact_events).find(params[:id])
+        render json: @event.as_json(include: [:interactions, :assoc_contact_events, :event_contacts, {races: { include: :split_templates } }])
     end
 
     def update
@@ -47,6 +47,7 @@ class EventsController < ApplicationController
         def event_params
             params.require(:event).permit(
               :id,
+              :is_visible,
               :name,
               :location,
               :date_time,
@@ -80,8 +81,7 @@ class EventsController < ApplicationController
               :results_url,
               :course_map_url,
               :timer_id,
-              :event_group_id,
-              :is_visible
+              :event_group_id
             )
         end
 end

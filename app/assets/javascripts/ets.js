@@ -13,16 +13,18 @@ window.Ets = {
         Ets.groups          = new Ets.Collections.groups();
         Ets.group_defaults  = new Ets.Collections.group_defaults();
         Ets.nav             = new Ets.Views.nav();
+        Ets.event_contacts  = new Ets.Collections.EventContacts();
     }
 };
 
 
 $(document).ready(function(){
+    // initialize and establish admin state
     Ets.initialize();
     Backbone.history.start({ pushState: true });
     $('#current-user').remove();
     Ets.admin = !!(Ets.current_user && Ets.current_user.admin);
-
+        
     //handle links
     if (Backbone.history && Backbone.history._hasPushState) {
         $(document).delegate("a", "click", function(event) {

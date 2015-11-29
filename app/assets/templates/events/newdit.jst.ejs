@@ -169,6 +169,102 @@
             </div>
         </form>
         <hr />
+
+        <!-- contacts -->
+        <div class="page-header">
+            <h2>Contacts</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <th>Name</th>
+                <th>email</th>
+                <th>phone</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <% event.get('event_contacts').each(function (contact) { %>
+                <tr data-model-id="<%= contact.id %>">
+                    <td><%= contact.fullname() %></td>
+                    <td><%= contact.get('email') %></td>
+                    <td><%= contact.get('phone') %></td>
+                    <td><button class="btn btn-danger" data-function="deleteContact">Delete</button></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <hr />
+        <form>
+            <div class="input-group">
+                <span class="input-group-addon">Add a Contact</span>
+                <select class="form-control">
+                <% event_contacts.each(function (model) { %>
+                    <option value="<%= model.id %>"><%= model.fullname() %></option>
+                <% }) %>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-success" data-function="addContact">+</button>
+                </span>
+            </div>
+        </form>
+        <hr />
+        <form>
+            <div class="input-group">
+                <span class="input-group-addon">Create a Contact</span>
+                <input class="form-control" name="first_name" placeholder="first name..." />
+                <input class="form-control" name="last_name" placeholder="last name..." />
+                <input class="form-control" name="company_name" placeholder="company name..." />
+                <input class="form-control" name="phone" placeholder="phone..." />
+                <input class="form-control" name="email" placeholder="email..." />
+                <span class="input-group-addon">
+                    <button class="btn btn-success" data-function="createContact">+</button>
+                </span>
+            </div>
+        </form>
+        <hr />
+        <!-- contacts -->
+        <div class="page-header">
+            <h2>Interactions</h2>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <th>note</th>
+                <th>created_at</th>
+                <th>needs_contact</th>
+                <th>date</th>
+                <th></th>
+
+            </thead>
+            <tbody>
+                <% event.get('interactions').each(function (model) { %>
+                <tr data-model-id="<%= model.id %>">
+                    <td><%= model.get('note') %></td>
+                    <td><%= model.get('created_at') %></td>
+                    <td><%= model.get('needs_contact') %></td>
+                    <td><%= model.get('date') %></td>
+                    <td><button class="btn btn-danger" data-function="deleteInteraction">Delete</button></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <hr />
+        <form>
+            <div class="input-group">
+                <span class="input-group-addon">Add a Note and Date</span>
+                <input name="note" type="text" class="form-control" placeholder="Add a Note..." />
+                <input name="date" type="date" class="form-control" />
+                <span class="input-group-addon">
+                    <label>Needs Contact</label>
+                    <br />
+                    <input name="needs_contact" type="checkbox" />
+                </span>
+                <span class="input-group-addon">
+                    <button class="btn btn-success" data-function="addInteraction">+</button>
+                </span>
+            </div>
+        </form>
+        <hr />
         <button class="btn btn-sm btn-default" data-function="save">Save</button>
     </div>
 </div>

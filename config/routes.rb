@@ -39,5 +39,7 @@ Rails.application.routes.draw do
     resources :split_templates
     resources :contents
     resources :contact
-    resources :contacts
+    resources :event_contacts
+    resources :interactions
+    resources :assoc_contact_events
 end

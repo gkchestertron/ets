@@ -1,19 +1,19 @@
-class ContactsController < ApplicationController
+class EventContactsController < ApplicationController
   def create
     contact = EventContact.new(contact_params)
     if contact.save
       render json: contact
     else
-      render status: 400
+      head 400
     end
   end
 
   def destroy
     contact = EventContact.find(params[:id])
     if contact.destroy
-      render status: 204
+      head 204
     else
-      render status: 400
+      head 400
     end
   end
 
@@ -26,7 +26,7 @@ class ContactsController < ApplicationController
     if contact
       render json: contact
     else
-      render status: 400
+      head 400
     end
   end
 
@@ -35,14 +35,14 @@ class ContactsController < ApplicationController
     if contact.update_attributes(contact_params)
       render json: contact
     else
-      render status: 400
+      head 400
     end
   end
 
 
   private
     def contact_params
-      params.require(:contact).permit(
+      params.require(:event_contact).permit(
         :id,
         :company_name,
         :first_name,

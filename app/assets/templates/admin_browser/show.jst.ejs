@@ -5,7 +5,7 @@ no data
     <thead>
         <tr>
             <% _.each(collection.first().attributes, function (attr, name) { %>
-            <th data-comparator="bib_number">
+            <th data-comparator="<%= name %>">
                 <div class="th-title"><%= name %></div>
                 <div class="sort-arrows">
                     <span class="glyphicon glyphicon-arrow-up"></span>
@@ -13,6 +13,7 @@ no data
                 </div>
             </th>
             <% }) %>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +22,7 @@ no data
             <% _.each(model.attributes, function (attr, name) { %>
             <td data-attr-name="<%= name %>"><div class="td_content"><%= attr %></div></td>
             <% }) %>
+            <td><button class="btn btn-danger" data-function="deleteModel">Delete</button></td>
         </tr>
         <% }) %>
     </tbody>
